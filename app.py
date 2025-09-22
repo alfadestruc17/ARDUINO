@@ -1,8 +1,9 @@
 # app.py
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, Response
 from config.config import config
 from services.arduino_service import ArduinoService
 import logging, os
+import cv2
 
 # configuración básica
 env = os.getenv('FLASK_ENV', 'development')
@@ -35,6 +36,21 @@ def send():
     else:
         flash("Error enviando comando al ESP", "error")
     return redirect(url_for('index'))
+
+def gen():
+    cap = cv2.VideoCapture(2)  # camera 1 (second camera)
+    while True:
+        ret, frame = cap.read()
+        if not ret:
+            break
+        ret, buffer = cv2.imencode('.jpg', frame)
+        frame = buffer.tobytes()
+        yield (b'--frame\r\n'
+               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+
+@app.route('/video_feed')
+def video_feed():
+    return Response(gen(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 if __name__ == "__main__":
     app.run(debug=app_cfg.DEBUG, host="0.0.0.0", port=5000)
