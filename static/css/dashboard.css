@@ -180,6 +180,39 @@ body {
     background-color: #f1f3f4;
 }
 
+/* Botón de Gestión de Automoviles */
+.gestion-automoviles-btn {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 123, 255, 0.2);
+}
+
+.gestion-automoviles-btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3);
+    color: white;
+    text-decoration: none;
+}
+
+.gestion-automoviles-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 123, 255, 0.2);
+}
+
+.gestion-automoviles-btn i {
+    margin-right: 8px;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .stats-grid, .time-stats-grid {
@@ -197,6 +230,11 @@ body {
 
     .vehicles-table th, .vehicles-table td {
         padding: 8px 10px;
+        font-size: 0.9rem;
+    }
+
+    .gestion-automoviles-btn {
+        padding: 10px 20px;
         font-size: 0.9rem;
     }
 }
