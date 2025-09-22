@@ -153,18 +153,50 @@ body {
     margin-top: 10px;
 }
 
+/* Vehicles Table */
+.vehicles-table {
+    overflow-x: auto;
+}
+
+.vehicles-table table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.vehicles-table th, .vehicles-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.vehicles-table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #000;
+}
+
+.vehicles-table tbody tr:hover {
+    background-color: #f1f3f4;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .stats-grid, .time-stats-grid {
         grid-template-columns: 1fr;
         gap: 20px;
     }
-    
+
     .stat-value {
         font-size: 2.2rem;
     }
-    
+
     .dashboard-header h1 {
         font-size: 2rem;
+    }
+
+    .vehicles-table th, .vehicles-table td {
+        padding: 8px 10px;
+        font-size: 0.9rem;
     }
 }
