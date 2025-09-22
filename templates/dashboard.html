@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Control de Vehículos</title>
+    <link rel="stylesheet" href="../static/css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Encabezado -->
+        <div class="dashboard-header">
+            <h1><i class="fas fa-chart-line"></i> Dashboard de Tráfico</h1>
+            <p>Estadísticas en tiempo real del control de vehículos</p>
+        </div>
+
+        <!-- Estadísticas Principales -->
+        <div class="stats-grid">
+            <!-- Total de vehículos hoy -->
+            <div class="stat-card primary">
+                <div class="stat-icon">
+                    <i class="fas fa-car"></i>
+                </div>
+                <div class="stat-value">247</div>
+                <div class="stat-label">Vehículos Hoy</div>
+                <div class="stat-change">+12% vs ayer</div>
+            </div>
+
+            <!-- Ingresos generados -->
+            <div class="stat-card revenue">
+                <div class="stat-icon">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <div class="stat-value">$1,850</div>
+                <div class="stat-label">Ingresos Totales</div>
+                <div class="stat-change">+8% vs ayer</div>
+            </div>
+
+            <!-- Promedio por hora -->
+            <div class="stat-card average">
+                <div class="stat-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-value">10.3</div>
+                <div class="stat-label">Promedio por Hora</div>
+                <div class="stat-change">+1.2 vs promedio</div>
+            </div>
+        </div>
+
+        <!-- Estadísticas de Tiempo -->
+        <div class="time-stats-section">
+            <h2><i class="fas fa-chart-bar"></i> Estadísticas de Tiempo</h2>
+            <div class="time-stats-grid">
+                <!-- Hora pico -->
+                <div class="time-stat-item peak">
+                    <div class="time-stat-value">08:30 AM</div>
+                    <div class="time-stat-label">Hora Pico del Día</div>
+                    <div style="margin-top: 10px; font-size: 0.8rem; color: #e74c3c;">
+                        <i class="fas fa-exclamation-triangle"></i> 45 vehículos en 30 min
+                    </div>
+                </div>
+
+                <!-- Tiempo promedio entre vehículos -->
+                <div class="time-stat-item average">
+                    <div class="time-stat-value">5.8 min</div>
+                    <div class="time-stat-label">Tiempo Promedio Entre Vehículos</div>
+                    <div style="margin-top: 10px; font-size: 0.8rem; color: #2ecc71;">
+                        <i class="fas fa-check-circle"></i> Flujo estable
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráficos (Chart.js) -->
+        <div class="time-stats-section">
+            <h2><i class="fas fa-chart-line"></i> Gráfico de Vehículos por Hora</h2>
+            <canvas id="vehiculosChart" height="120"></canvas>
+        </div>
+
+        <!-- Información adicional -->
+        <div style="text-align: center; margin-top: 30px; color: white; opacity: 0.8;">
+            <p><i class="fas fa-sync-alt"></i> Última actualización: Hoy a las 14:30</p>
+            <p style="font-size: 0.9rem; margin-top: 10px;">
+                Sistema de control automatizado - Versión 1.0
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Simulación de actualización en tiempo real (para futura implementación)
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('es-CO', { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            document.querySelector('.dashboard-header p').textContent = 
+                `Estadísticas en tiempo real - ${timeString}`;
+        }
+        
+        // Actualizar cada 30 segundos
+        setInterval(updateTime, 10000);
+        updateTime(); // Ejecutar inmediatamente
+
+        // Inicializar gráfico sencillo con Chart.js
+        const ctx = document.getElementById('vehiculosChart');
+        if (ctx) {
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00'],
+                    datasets: [{
+                        label: 'Vehículos por hora',
+                        data: [5, 12, 30, 45, 38, 25, 20],
+                        borderColor: '#007bff',
+                        backgroundColor: 'rgba(0, 123, 255, 0.2)',
+                        tension: 0.3,
+                        fill: true,
+                        pointRadius: 3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { display: true } },
+                    scales: {
+                        x: { grid: { display: false } },
+                        y: { beginAtZero: true, ticks: { stepSize: 10 } }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
