@@ -2,6 +2,8 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, Response, jsonify, send_file
 from config.config import config
 from services.arduino_service import ArduinoService
+from database.conexion import Conexion
+
 import logging, os
 import cv2
 from ultralytics import YOLO
@@ -18,6 +20,7 @@ app.config.from_object(app_cfg)
 logging.basicConfig(level=app_cfg.LOG_LEVEL)
 
 arduino = ArduinoService(base_url=app_cfg.BASE_URL)
+db = Conexion()   # 👈 instancia la conexión
 
 model = YOLO("best.pt")
 
@@ -27,7 +30,13 @@ last_plate_text = ""
 
 @app.route("/")
 def index():
-    return render_template("index.html", open_angle=app_cfg.OPEN_ANGLE, closed_angle=app_cfg.CLOSED_ANGLE)
+    lista_autos = db.obtener_automoviles()   # 👈 pasa la lista de autos
+    return render_template(
+        "index.html",
+        open_angle=app_cfg.OPEN_ANGLE,
+        closed_angle=app_cfg.CLOSED_ANGLE,
+        automoviles=lista_autos
+    )
 
 @app.route("/send", methods=["POST"])
 def send():
@@ -47,7 +56,6 @@ def send():
     else:
         flash("Error enviando comando al ESP", "error")
     return redirect(url_for('index'))
-
 
 def gen():
     global last_plate_crop, last_plate_text
@@ -99,6 +107,22 @@ def gen():
 @app.route('/video_feed')
 def video_feed():
     return Response(gen(), mimetype='multipart/x-mixed-replace; boundary=frame')
+
+# 🚀 Nueva ruta para registrar autos
+@app.route("/add_car", methods=["POST"])
+def add_car():
+    placa = request.form.get("placa", "").strip().upper()
+    if len(placa) != 3:
+        flash("❌ La placa debe tener exactamente 3 caracteres.", "danger")
+    else:
+        try:
+            db.registrar_automovil(placa, 50)  # saldo inicial 50
+            flash(f"✅ Automóvil {placa} registrado con saldo inicial de 50.", "success")
+        except Exception as e:
+            flash(f"❌ Error al registrar automóvil: {e}", "danger")
+    return redirect(url_for("index"))
+
+
 
 
 @app.route("/get_plate_text")
