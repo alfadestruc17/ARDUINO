@@ -1,0 +1,322 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Servidor: localhost:3306
+-- Tiempo de generación: 22-09-2025 a las 12:15:38
+-- Versión del servidor: 8.0.30
+-- Versión de PHP: 8.1.10
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Base de datos: `arduino_peaje`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `automovil`
+--
+
+CREATE TABLE `automovil` (
+  `id` int NOT NULL,
+  `placa` varchar(20) NOT NULL,
+  `saldo` double DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `automovil`
+--
+
+INSERT INTO `automovil` (`id`, `placa`, `saldo`) VALUES
+(2, 'JHF435', 0),
+(4, 'TRD113', 0),
+(6, 'WWY777', 20),
+(7, 'EER444', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `blockchain`
+--
+
+CREATE TABLE `blockchain` (
+  `indice` int NOT NULL,
+  `timestamp` double NOT NULL,
+  `datos` text NOT NULL,
+  `hash_anterior` varchar(64) NOT NULL,
+  `hash` varchar(64) NOT NULL,
+  `nonce` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `blockchain`
+--
+
+INSERT INTO `blockchain` (`indice`, `timestamp`, `datos`, `hash_anterior`, `hash`, `nonce`) VALUES
+(1, 1747138093.853354, '{\"registros\": [{\"id\": 1, \"fecha_hora\": \"2025-05-12 12:17:00\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"f68024e077977af26e3446fb04d8eabda8474b297e90b58b0c420a76556c741b\"}, {\"id\": 2, \"fecha_hora\": \"2025-05-13 06:55:49\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"ec1d7df6ef2ac80e66b64619929aa3539badaebc1ea4cf6cd81020a1795f7d76\"}, {\"id\": 3, \"fecha_hora\": \"2025-05-13 06:55:52\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"c2636151de8a71fae9722a481706df02115b65df8f81eb3613541acad96695dc\"}, {\"id\": 4, \"fecha_hora\": \"2025-05-13 06:55:55\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"a8bcb3b46a94c3a283178f48e78a022c869b519e8e556cbcea269320188d8adf\"}, {\"id\": 5, \"fecha_hora\": \"2025-05-13 06:55:58\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"fb74d75a2de8e2ec00fac6fb5b79f998db68977b1c4fd7a444a801f8b3c74915\"}]}', '0000000000000000000000000000000000000000000000000000000000000000', '0025cf69a5a9cf23ef8718d6ec8d088ff695c830d60b36f73fbbb90e97652931', 155),
+(2, 1747138100.024958, '{\"registros\": [{\"id\": 6, \"fecha_hora\": \"2025-05-13 06:56:11\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"2eeef95818a45bf9a190590ca1a9817229a587d1dfa6a081a0aa16f3f75d240a\"}, {\"id\": 7, \"fecha_hora\": \"2025-05-13 06:56:57\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"c9a6f2b4d0b32c326ca2b32ebe1882578c2142d0e090562af89797db8e3d0ab2\"}, {\"id\": 8, \"fecha_hora\": \"2025-05-13 06:56:57\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"eda820700d9ab0ca4b0b3d628b280b4511ca1379a35beb2a20d98a885c08a569\"}, {\"id\": 9, \"fecha_hora\": \"2025-05-13 06:56:57\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"4179970cc5ff6a8d1796af8706310b69c3ebc4878b96a484db416a9647a5e0ff\"}, {\"id\": 10, \"fecha_hora\": \"2025-05-13 06:56:57\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"ad5f3725d2076c0cfeb9c895432bd00dd8f475b4881ab6941933bc035f26bc2d\"}]}', '0025cf69a5a9cf23ef8718d6ec8d088ff695c830d60b36f73fbbb90e97652931', '00bdc149acd9e2047c21f8bcf0b8e0a99b917773dd1486f8c4492fbc1e4d2262', 474),
+(3, 1747138101.242787, '{\"registros\": [{\"id\": 11, \"fecha_hora\": \"2025-05-13 06:57:11\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"3c412517825da263cd623ef6ec3747d2a628995dc816c3df8a45b0d1407461fa\"}, {\"id\": 12, \"fecha_hora\": \"2025-05-13 06:57:16\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"9afba991399876bac995db9c332ff17d5f86141fc3502107aa4062435c84daf6\"}, {\"id\": 13, \"fecha_hora\": \"2025-05-13 06:57:16\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"b36b87612462c8963966f4129ad4c019e6029b4cc0b9990c9a7054f3e94d2bce\"}, {\"id\": 14, \"fecha_hora\": \"2025-05-13 06:57:16\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"954ef92157c94b0d25c3d7e9ab18a43bc07045e9dda24a10c9853d87044e44b8\"}, {\"id\": 15, \"fecha_hora\": \"2025-05-13 06:57:16\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"53ff5f63305480a06fcd0479e4eabf8510f3ef1de99b27ad89051baf6f7264ec\"}]}', '00bdc149acd9e2047c21f8bcf0b8e0a99b917773dd1486f8c4492fbc1e4d2262', '0026f3177f732887469064c2130434f5e8eb10b093f0d86dc4e207de009b74cd', 122),
+(4, 1747138107.193175, '{\"registros\": [{\"id\": 16, \"fecha_hora\": \"2025-05-13 06:57:16\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"53ff5f63305480a06fcd0479e4eabf8510f3ef1de99b27ad89051baf6f7264ec\"}, {\"id\": 17, \"fecha_hora\": \"2025-05-13 06:57:16\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"4f510665ac8bf3eea95f2af7310126bb40562496290f369b40f166cc949db5b0\"}, {\"id\": 18, \"fecha_hora\": \"2025-05-13 06:57:16\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"db4af68555c23c1eee606a434e3f01795e5474555fc3007cb84d4767476e4be2\"}, {\"id\": 19, \"fecha_hora\": \"2025-05-13 06:57:17\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"071c14902dac13ce2568973067840d919707164b76ec9f7679301c27764cf734\"}, {\"id\": 20, \"fecha_hora\": \"2025-05-13 07:08:13\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"ca39f4ad6fd376dcae6147cdbb8a98bc7c1c6dfefa7aff5a4b408d597f8f8eaf\"}]}', '0026f3177f732887469064c2130434f5e8eb10b093f0d86dc4e207de009b74cd', '000abc916eb1fae791dcb4a3e5a6bdc02e7d21638e22a1ae078132db26f26945', 260),
+(5, 1747138115.179598, '{\"registros\": [{\"id\": 21, \"fecha_hora\": \"2025-05-13 07:08:20\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"a73d904768b1d1f9745e501366cd9148eec779dd6ac0fde9291a253c0ff71c25\"}, {\"id\": 22, \"fecha_hora\": \"2025-05-13 07:08:21\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"f62526fe25efdb2048da528bf8872bb74ae7e1de2ad403d39e19e44de913935d\"}, {\"id\": 23, \"fecha_hora\": \"2025-05-13 07:08:27\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"5218d937a861bad6bae4d17df2be4cfb7d4134cc0ce508fdc73917ff2693c33b\"}, {\"id\": 24, \"fecha_hora\": \"2025-05-13 07:08:35\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"36290ae513f99f8db25bcb52f3a9de6dc326bf8f1b48406da930ad5f3bf4a063\"}, {\"id\": 25, \"fecha_hora\": \"2025-05-13 07:08:35\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"c4cdbea2758e027053a18394858710c03e996d462fe9a84cf4b3a570e0c8c431\"}]}', '000abc916eb1fae791dcb4a3e5a6bdc02e7d21638e22a1ae078132db26f26945', '001d133bbff9a4166f9ae82ca68105e943320d157318bf25d1f4fb3b5f691ff5', 779),
+(6, 1747138161.223754, '{\"registros\": [{\"id\": 26, \"fecha_hora\": \"2025-05-13 07:08:57\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"9e3420be226902a42a998d4d5dfb688517a7df51d96a882c20408c740ee2956a\"}, {\"id\": 27, \"fecha_hora\": \"2025-05-13 07:08:58\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"3d3bfb21ae14f3bb8eb3c0688812eb85fc93f5e64ebfcf8dbc3931aeefe729a4\"}, {\"id\": 28, \"fecha_hora\": \"2025-05-13 07:08:58\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"d59caa3dfaa000b89ca957aca15e5cd809847194eb30b7111a7df4c0186fa8f4\"}, {\"id\": 29, \"fecha_hora\": \"2025-05-13 07:09:10\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"96609dfb5f3ae78008d346f9fa8b259114216c3d697aa5367f6bffa8d324a7f5\"}, {\"id\": 30, \"fecha_hora\": \"2025-05-13 07:09:21\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"5ba12d19f7c04b8b0a1b0e12a53287af0f915fc2fe6765a4f829d6853746f7bb\"}]}', '001d133bbff9a4166f9ae82ca68105e943320d157318bf25d1f4fb3b5f691ff5', '00a8adaa3724a0c790ad2fadf73dca4b27beffc5eace533e0df250a73e6349d1', 30),
+(7, 1747140182.437521, '{\"registros\": [{\"id\": 31, \"fecha_hora\": \"2025-05-13 07:09:21\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"48ca44e52ec91b62d4e56c4f5934b908eb743703e9880cc32e31eff0125c0175\"}, {\"id\": 32, \"fecha_hora\": \"2025-05-13 07:09:21\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"748b34766da9b93cfc60a5be43e3bcf4a6077b497d6539e272c469513384c1a6\"}, {\"id\": 33, \"fecha_hora\": \"2025-05-13 07:43:01\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"0d3147a9e0798791adc04248996e8c7a129482e292b09f9ed6c81958badb4f03\"}, {\"id\": 34, \"fecha_hora\": \"2025-05-13 07:43:01\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"245786845208e3041564bfef40d62e1ccdd00d4f4839b07d5ef0156f84f15d4a\"}, {\"id\": 35, \"fecha_hora\": \"2025-05-13 07:43:02\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"9a81d503aa61986791b062e81331ef45e5c97d29c043164329691cf6be1a97e8\"}]}', '00a8adaa3724a0c790ad2fadf73dca4b27beffc5eace533e0df250a73e6349d1', '00b77d24e3eefc6e0ac486da5968ec0742a1ae3442f3e7bc861f43627ca517ad', 56),
+(8, 1747140182.97048, '{\"registros\": [{\"id\": 36, \"fecha_hora\": \"2025-05-13 07:43:02\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"0eca3a586b768490248655f7349a2b21a5ba307a6262327b0749aeca31930fbc\"}, {\"id\": 37, \"fecha_hora\": \"2025-05-13 07:43:02\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"ec2e406b5faee742b0d8623ddfe2f6cafe0cfdaacfd92775fba32d87060c483b\"}, {\"id\": 38, \"fecha_hora\": \"2025-05-13 07:43:02\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"32f675d90a1a706fba1d5244ed2eb6cfad847f983fee4cb38742ecca042870da\"}, {\"id\": 39, \"fecha_hora\": \"2025-05-13 07:43:02\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"ec2e406b5faee742b0d8623ddfe2f6cafe0cfdaacfd92775fba32d87060c483b\"}, {\"id\": 40, \"fecha_hora\": \"2025-05-13 07:43:02\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"adb6aeddc74ca8f59eb78797b4aa16a3e90b838f09262b01ab664c6cc271e91d\"}]}', '00b77d24e3eefc6e0ac486da5968ec0742a1ae3442f3e7bc861f43627ca517ad', '007e9b30fb434031fb1703ef193fc68fa2db6ac83cc93901edfedba3be9eb69a', 496),
+(9, 1747140185.412697, '{\"registros\": [{\"id\": 41, \"fecha_hora\": \"2025-05-13 07:43:03\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"07c8f97d0045114e3f8d6f6469ad9a92baa057d08294a9bb348f99f4e8ef7475\"}, {\"id\": 42, \"fecha_hora\": \"2025-05-13 07:43:03\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"2921596d2c1e9e1c5dfac1e0e9f9835f484a0dd7bdfa44f8675139da03fa3905\"}, {\"id\": 43, \"fecha_hora\": \"2025-05-13 07:43:03\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"55e281d6525e2ae8d03eb63e962b7832f719e20b5f852c87f090582319ef8085\"}, {\"id\": 44, \"fecha_hora\": \"2025-05-13 07:43:03\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"ecc9c914983213de2216e8c49e01fea2089c30d01038b9f15db13bf74f0464ab\"}, {\"id\": 45, \"fecha_hora\": \"2025-05-13 07:43:05\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"2f6da8109a9b843757133bda01f054537d19212548d9680b61a19cf458a45301\"}]}', '007e9b30fb434031fb1703ef193fc68fa2db6ac83cc93901edfedba3be9eb69a', '0094490b5c5813df3d66ebd69cd3bc9b47b46920171e8d0a00be109f17758dc6', 7),
+(10, 1747140207.674396, '{\"registros\": [{\"id\": 46, \"fecha_hora\": \"2025-05-13 07:43:08\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"956fd900c229ae2fb59050d35e15665a28a15a9b7012b3442be3826e9acca032\"}, {\"id\": 47, \"fecha_hora\": \"2025-05-13 07:43:18\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"11b55f4fa34a0740a3ba4f5178fb8aee64eb9da9164a2ffec759248d0734d2e4\"}, {\"id\": 48, \"fecha_hora\": \"2025-05-13 07:43:25\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"ed5be24681960e7102cc55fce1a25658da038396237113a3ea1997c691938a23\"}, {\"id\": 49, \"fecha_hora\": \"2025-05-13 07:43:25\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"7880e9baaaab0ca8d9646565c0865f0cb62fe74dd07e16b7bdce41c0314be534\"}, {\"id\": 50, \"fecha_hora\": \"2025-05-13 07:43:27\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"b31b4eb0abcf3f5b41e0fc03f110b0c3df96aced3b84510102b9f4bd1b3fdc8b\"}]}', '0094490b5c5813df3d66ebd69cd3bc9b47b46920171e8d0a00be109f17758dc6', '003acaf56285fedb1931b5029186cd0f0aba3f8037b8d9621f21f50b6b4f7f90', 281),
+(11, 1747140423.217429, '{\"registros\": [{\"id\": 51, \"fecha_hora\": \"2025-05-13 07:43:31\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"526be04f80b9a66723e7986014cc2970eef8d200bd14cc10d179abf235d97fe0\"}, {\"id\": 52, \"fecha_hora\": \"2025-05-13 07:43:47\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"057ef1ba1c04c287160b878af22b4afc1f0fa4d3db8b2414511671c9e67c3497\"}, {\"id\": 53, \"fecha_hora\": \"2025-05-13 07:44:33\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"ad0aa703f12476e7e8877cffa266d34554081e5db12644ff47696c4e2e67bc71\"}, {\"id\": 54, \"fecha_hora\": \"2025-05-13 07:47:02\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"0650ab300cb5812871e29913884f7676ad5a3fecaf04eb272232873f6232c652\"}, {\"id\": 55, \"fecha_hora\": \"2025-05-13 07:47:03\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"b8d9edab435564079ab7ade3b0f089cdf10def449cfe9fda8dadab494d3077f9\"}]}', '003acaf56285fedb1931b5029186cd0f0aba3f8037b8d9621f21f50b6b4f7f90', '0073c0068a7e0895deea118aba37c392437d6ac289eacdf250d6904bc9221849', 277),
+(12, 1747140423.747405, '{\"registros\": [{\"id\": 56, \"fecha_hora\": \"2025-05-13 07:47:03\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"887ffd22165c0ddb7a531b65b20fbcf1999720a31709efa7dd3bb2ffbf7052da\"}, {\"id\": 57, \"fecha_hora\": \"2025-05-13 07:47:03\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"1f6683b2532e3f4ffecd44f6842834593d3064faead089510a120ef03a2fdb39\"}, {\"id\": 58, \"fecha_hora\": \"2025-05-13 07:47:03\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"29aa1f387f5305e8f70099513092cea202e4564459f1fb5387d672c57109c007\"}, {\"id\": 59, \"fecha_hora\": \"2025-05-13 07:47:03\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"29aa1f387f5305e8f70099513092cea202e4564459f1fb5387d672c57109c007\"}, {\"id\": 60, \"fecha_hora\": \"2025-05-13 07:47:03\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"585316735639ebe3a9b5b77b48eb3c9098cc29b3d39ea5fe841cce6c5d413a04\"}]}', '0073c0068a7e0895deea118aba37c392437d6ac289eacdf250d6904bc9221849', '000da14f7cfe0b8f5eef0b0388f7e98bd91c50ffa70dba40a32ac0038f4c3d03', 202),
+(13, 1747140424.275365, '{\"registros\": [{\"id\": 61, \"fecha_hora\": \"2025-05-13 07:47:03\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"b83d04c2ff4a20012731cde845e1e97c8422060bcfa598bc2fa2995d2cce6e56\"}, {\"id\": 62, \"fecha_hora\": \"2025-05-13 07:47:03\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"585316735639ebe3a9b5b77b48eb3c9098cc29b3d39ea5fe841cce6c5d413a04\"}, {\"id\": 63, \"fecha_hora\": \"2025-05-13 07:47:04\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"8e03209771423053470767f87d692428cb96b88b621b3a6d9b4803dbb21c7d3f\"}, {\"id\": 64, \"fecha_hora\": \"2025-05-13 07:47:04\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"01aa7bc1e744dbe0b6d3abd7b5ae11beced468a202f4e5ce7c895bed0ab058db\"}, {\"id\": 65, \"fecha_hora\": \"2025-05-13 07:47:04\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"345c0cb6d4c31d1d013de29a2dcd30c253052cb670540a5de9de12a2c1336158\"}]}', '000da14f7cfe0b8f5eef0b0388f7e98bd91c50ffa70dba40a32ac0038f4c3d03', '004dc72bea77b69bdead5ee89ef864b758de2030dce6c8b3997492262353a9f9', 147),
+(14, 1747140425.004596, '{\"registros\": [{\"id\": 66, \"fecha_hora\": \"2025-05-13 07:47:04\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"219c7afc8dd1d955a2fb8dac3c6623a74c30eb37478199a48c3d251a302387fb\"}, {\"id\": 67, \"fecha_hora\": \"2025-05-13 07:47:04\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"219c7afc8dd1d955a2fb8dac3c6623a74c30eb37478199a48c3d251a302387fb\"}, {\"id\": 68, \"fecha_hora\": \"2025-05-13 07:47:04\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"219c7afc8dd1d955a2fb8dac3c6623a74c30eb37478199a48c3d251a302387fb\"}, {\"id\": 69, \"fecha_hora\": \"2025-05-13 07:47:04\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"8e03209771423053470767f87d692428cb96b88b621b3a6d9b4803dbb21c7d3f\"}, {\"id\": 70, \"fecha_hora\": \"2025-05-13 07:47:05\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"0511730e85a3378ee608fd7c8ea52ef3f632be402927bf9ecf8f40934ef654f7\"}]}', '004dc72bea77b69bdead5ee89ef864b758de2030dce6c8b3997492262353a9f9', '005aba2a53708f2150a8e22faa7ebf3a5e4452340d4c2b1f49652c0152f17970', 256),
+(15, 1747140436.594737, '{\"registros\": [{\"id\": 71, \"fecha_hora\": \"2025-05-13 07:47:05\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"1525b3bad33c7d322a67c5b14cbbaab5c3b1f6acf2ffbb4c5307f1ff4188724d\"}, {\"id\": 72, \"fecha_hora\": \"2025-05-13 07:47:07\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"9e8003a84721fe3c0fa98589a057ea9ec8347b295cb6534e2f9018bb0c0751a3\"}, {\"id\": 73, \"fecha_hora\": \"2025-05-13 07:47:10\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"f12b13b8da5997865ae20d03301a07a05f00b3eb1f75b838bcc995dede61e8b2\"}, {\"id\": 74, \"fecha_hora\": \"2025-05-13 07:47:13\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"5895bd6a35a0d2d4360fea6b1fac51adda422e023f59b6441b03f3a935e0cb9d\"}, {\"id\": 75, \"fecha_hora\": \"2025-05-13 07:47:16\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"fb0d2c3d6bb691ef3036a3193fd205f853de26b03d9ef55d26f28b0ee7094add\"}]}', '005aba2a53708f2150a8e22faa7ebf3a5e4452340d4c2b1f49652c0152f17970', '00d784b29bd6f0b0e20dafef75347074ce626e63b1134c96c774d85b81f6ae23', 471),
+(16, 1747140513.089219, '{\"registros\": [{\"id\": 76, \"fecha_hora\": \"2025-05-13 07:47:19\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"24d2812cfc6072f33c1049660e33588e647ca19722d4fe2401fc5e472dab5606\"}, {\"id\": 77, \"fecha_hora\": \"2025-05-13 07:47:22\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"0f1bdd4d76d4ecaa8e7428de999600538ac25dab25d3b9f171ea1a14e75cfd84\"}, {\"id\": 78, \"fecha_hora\": \"2025-05-13 07:47:25\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"cf6b16fb294c4674a4b2de9d7dddac6ea83c8e636f206e1298f31dc309bd8e96\"}, {\"id\": 79, \"fecha_hora\": \"2025-05-13 07:47:28\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"f317e9f9c145ffdfb0754f98448d058099db36abd5fd04bbdf0002f373b34c5e\"}, {\"id\": 80, \"fecha_hora\": \"2025-05-13 07:48:33\", \"estado\": \"VEHICULO DETECTADO\", \"hash\": \"54a086154263452881c60e4a36c515fa56054883d7d8db5363a9302ef4078306\"}]}', '00d784b29bd6f0b0e20dafef75347074ce626e63b1134c96c774d85b81f6ae23', '00c828709399f79d43ea3b5079698127558461d5422a5603f90fcb7f6cb02fe4', 296);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `distancias`
+--
+
+CREATE TABLE `distancias` (
+  `id` int NOT NULL,
+  `fecha_hora` datetime DEFAULT NULL,
+  `distancia` float DEFAULT NULL,
+  `hash` varchar(64) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `distancias`
+--
+
+INSERT INTO `distancias` (`id`, `fecha_hora`, `distancia`, `hash`) VALUES
+(1, '2025-05-13 07:08:13', 14, 'ca39f4ad6fd376dcae6147cdbb8a98bc7c1c6dfefa7aff5a4b408d597f8f8eaf'),
+(2, '2025-05-13 07:08:20', 10, 'a73d904768b1d1f9745e501366cd9148eec779dd6ac0fde9291a253c0ff71c25'),
+(3, '2025-05-13 07:08:21', 16, 'f62526fe25efdb2048da528bf8872bb74ae7e1de2ad403d39e19e44de913935d'),
+(4, '2025-05-13 07:08:27', 7, '5218d937a861bad6bae4d17df2be4cfb7d4134cc0ce508fdc73917ff2693c33b'),
+(5, '2025-05-13 07:08:35', 24, '36290ae513f99f8db25bcb52f3a9de6dc326bf8f1b48406da930ad5f3bf4a063'),
+(6, '2025-05-13 07:08:35', 14, 'c4cdbea2758e027053a18394858710c03e996d462fe9a84cf4b3a570e0c8c431'),
+(7, '2025-05-13 07:08:57', 15, '9e3420be226902a42a998d4d5dfb688517a7df51d96a882c20408c740ee2956a'),
+(8, '2025-05-13 07:08:58', 21, '3d3bfb21ae14f3bb8eb3c0688812eb85fc93f5e64ebfcf8dbc3931aeefe729a4'),
+(9, '2025-05-13 07:08:58', 15, 'd59caa3dfaa000b89ca957aca15e5cd809847194eb30b7111a7df4c0186fa8f4'),
+(10, '2025-05-13 07:09:10', 11, '96609dfb5f3ae78008d346f9fa8b259114216c3d697aa5367f6bffa8d324a7f5'),
+(11, '2025-05-13 07:09:21', 14, '5ba12d19f7c04b8b0a1b0e12a53287af0f915fc2fe6765a4f829d6853746f7bb'),
+(12, '2025-05-13 07:09:21', 17, '48ca44e52ec91b62d4e56c4f5934b908eb743703e9880cc32e31eff0125c0175'),
+(13, '2025-05-13 07:09:21', 16, '748b34766da9b93cfc60a5be43e3bcf4a6077b497d6539e272c469513384c1a6'),
+(14, '2025-05-13 07:43:01', 21, '0d3147a9e0798791adc04248996e8c7a129482e292b09f9ed6c81958badb4f03'),
+(15, '2025-05-13 07:43:01', 19, '245786845208e3041564bfef40d62e1ccdd00d4f4839b07d5ef0156f84f15d4a'),
+(16, '2025-05-13 07:43:02', 23, '9a81d503aa61986791b062e81331ef45e5c97d29c043164329691cf6be1a97e8'),
+(17, '2025-05-13 07:43:02', 17, '0eca3a586b768490248655f7349a2b21a5ba307a6262327b0749aeca31930fbc'),
+(18, '2025-05-13 07:43:02', 21, 'ec2e406b5faee742b0d8623ddfe2f6cafe0cfdaacfd92775fba32d87060c483b'),
+(19, '2025-05-13 07:43:02', 20, '32f675d90a1a706fba1d5244ed2eb6cfad847f983fee4cb38742ecca042870da'),
+(20, '2025-05-13 07:43:02', 21, 'ec2e406b5faee742b0d8623ddfe2f6cafe0cfdaacfd92775fba32d87060c483b'),
+(21, '2025-05-13 07:43:02', 22, 'adb6aeddc74ca8f59eb78797b4aa16a3e90b838f09262b01ab664c6cc271e91d'),
+(22, '2025-05-13 07:43:03', 20, '07c8f97d0045114e3f8d6f6469ad9a92baa057d08294a9bb348f99f4e8ef7475'),
+(23, '2025-05-13 07:43:03', 24, '2921596d2c1e9e1c5dfac1e0e9f9835f484a0dd7bdfa44f8675139da03fa3905'),
+(24, '2025-05-13 07:43:03', 19, '55e281d6525e2ae8d03eb63e962b7832f719e20b5f852c87f090582319ef8085'),
+(25, '2025-05-13 07:43:03', 22, 'ecc9c914983213de2216e8c49e01fea2089c30d01038b9f15db13bf74f0464ab'),
+(26, '2025-05-13 07:43:05', 22, '2f6da8109a9b843757133bda01f054537d19212548d9680b61a19cf458a45301'),
+(27, '2025-05-13 07:43:08', 21, '956fd900c229ae2fb59050d35e15665a28a15a9b7012b3442be3826e9acca032'),
+(28, '2025-05-13 07:43:18', 21, '11b55f4fa34a0740a3ba4f5178fb8aee64eb9da9164a2ffec759248d0734d2e4'),
+(29, '2025-05-13 07:43:25', 17, 'ed5be24681960e7102cc55fce1a25658da038396237113a3ea1997c691938a23'),
+(30, '2025-05-13 07:43:25', 19, '7880e9baaaab0ca8d9646565c0865f0cb62fe74dd07e16b7bdce41c0314be534'),
+(31, '2025-05-13 07:43:27', 8, 'b31b4eb0abcf3f5b41e0fc03f110b0c3df96aced3b84510102b9f4bd1b3fdc8b'),
+(32, '2025-05-13 07:43:31', 12, '526be04f80b9a66723e7986014cc2970eef8d200bd14cc10d179abf235d97fe0'),
+(33, '2025-05-13 07:43:47', 13, '057ef1ba1c04c287160b878af22b4afc1f0fa4d3db8b2414511671c9e67c3497'),
+(34, '2025-05-13 07:44:33', 11, 'ad0aa703f12476e7e8877cffa266d34554081e5db12644ff47696c4e2e67bc71'),
+(35, '2025-05-13 07:47:02', 13, '0650ab300cb5812871e29913884f7676ad5a3fecaf04eb272232873f6232c652'),
+(36, '2025-05-13 07:47:03', 19, 'b8d9edab435564079ab7ade3b0f089cdf10def449cfe9fda8dadab494d3077f9'),
+(37, '2025-05-13 07:47:03', 16, '887ffd22165c0ddb7a531b65b20fbcf1999720a31709efa7dd3bb2ffbf7052da'),
+(38, '2025-05-13 07:47:03', 15, '1f6683b2532e3f4ffecd44f6842834593d3064faead089510a120ef03a2fdb39'),
+(39, '2025-05-13 07:47:03', 14, '29aa1f387f5305e8f70099513092cea202e4564459f1fb5387d672c57109c007'),
+(40, '2025-05-13 07:47:03', 14, '29aa1f387f5305e8f70099513092cea202e4564459f1fb5387d672c57109c007'),
+(41, '2025-05-13 07:47:03', 13, '585316735639ebe3a9b5b77b48eb3c9098cc29b3d39ea5fe841cce6c5d413a04'),
+(42, '2025-05-13 07:47:03', 11, 'b83d04c2ff4a20012731cde845e1e97c8422060bcfa598bc2fa2995d2cce6e56'),
+(43, '2025-05-13 07:47:03', 13, '585316735639ebe3a9b5b77b48eb3c9098cc29b3d39ea5fe841cce6c5d413a04'),
+(44, '2025-05-13 07:47:04', 13, '8e03209771423053470767f87d692428cb96b88b621b3a6d9b4803dbb21c7d3f'),
+(45, '2025-05-13 07:47:04', 16, '01aa7bc1e744dbe0b6d3abd7b5ae11beced468a202f4e5ce7c895bed0ab058db'),
+(46, '2025-05-13 07:47:04', 18, '345c0cb6d4c31d1d013de29a2dcd30c253052cb670540a5de9de12a2c1336158'),
+(47, '2025-05-13 07:47:04', 14, '219c7afc8dd1d955a2fb8dac3c6623a74c30eb37478199a48c3d251a302387fb'),
+(48, '2025-05-13 07:47:04', 14, '219c7afc8dd1d955a2fb8dac3c6623a74c30eb37478199a48c3d251a302387fb'),
+(49, '2025-05-13 07:47:04', 14, '219c7afc8dd1d955a2fb8dac3c6623a74c30eb37478199a48c3d251a302387fb'),
+(50, '2025-05-13 07:47:04', 13, '8e03209771423053470767f87d692428cb96b88b621b3a6d9b4803dbb21c7d3f'),
+(51, '2025-05-13 07:47:05', 21, '0511730e85a3378ee608fd7c8ea52ef3f632be402927bf9ecf8f40934ef654f7'),
+(52, '2025-05-13 07:47:05', 19, '1525b3bad33c7d322a67c5b14cbbaab5c3b1f6acf2ffbb4c5307f1ff4188724d'),
+(53, '2025-05-13 07:47:07', 19, '9e8003a84721fe3c0fa98589a057ea9ec8347b295cb6534e2f9018bb0c0751a3'),
+(54, '2025-05-13 07:47:10', 21, 'f12b13b8da5997865ae20d03301a07a05f00b3eb1f75b838bcc995dede61e8b2'),
+(55, '2025-05-13 07:47:13', 19, '5895bd6a35a0d2d4360fea6b1fac51adda422e023f59b6441b03f3a935e0cb9d'),
+(56, '2025-05-13 07:47:16', 18, 'fb0d2c3d6bb691ef3036a3193fd205f853de26b03d9ef55d26f28b0ee7094add'),
+(57, '2025-05-13 07:47:19', 18, '24d2812cfc6072f33c1049660e33588e647ca19722d4fe2401fc5e472dab5606'),
+(58, '2025-05-13 07:47:22', 17, '0f1bdd4d76d4ecaa8e7428de999600538ac25dab25d3b9f171ea1a14e75cfd84'),
+(59, '2025-05-13 07:47:25', 18, 'cf6b16fb294c4674a4b2de9d7dddac6ea83c8e636f206e1298f31dc309bd8e96'),
+(60, '2025-05-13 07:47:28', 17, 'f317e9f9c145ffdfb0754f98448d058099db36abd5fd04bbdf0002f373b34c5e'),
+(61, '2025-05-13 07:48:33', 23, '54a086154263452881c60e4a36c515fa56054883d7d8db5363a9302ef4078306'),
+(62, '2025-05-13 07:54:46', 24, '8f368199c21eb545de718360837aa1f84fd023aedbe7c4e495ae1e9b29b7fbf9'),
+(63, '2025-05-13 07:54:47', 18, '724f51ce8bdff008ded5aa55a048495aa21fc4b4a69e1af256db5286608479c8'),
+(64, '2025-05-13 08:07:00', 6, '844c84548219ca29bf1945c270914bde808ab47750ce1a1c17ca8eb9a291b04a');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `registros_peaje`
+--
+
+CREATE TABLE `registros_peaje` (
+  `id` int NOT NULL,
+  `fecha_hora` datetime NOT NULL,
+  `estado` varchar(50) DEFAULT NULL,
+  `hash` varchar(64) NOT NULL,
+  `bloque_id` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `registros_peaje`
+--
+
+INSERT INTO `registros_peaje` (`id`, `fecha_hora`, `estado`, `hash`, `bloque_id`) VALUES
+(1, '2025-05-12 12:17:00', 'VEHICULO DETECTADO', 'f68024e077977af26e3446fb04d8eabda8474b297e90b58b0c420a76556c741b', 1),
+(2, '2025-05-13 06:55:49', 'VEHICULO DETECTADO', 'ec1d7df6ef2ac80e66b64619929aa3539badaebc1ea4cf6cd81020a1795f7d76', 1),
+(3, '2025-05-13 06:55:52', 'VEHICULO DETECTADO', 'c2636151de8a71fae9722a481706df02115b65df8f81eb3613541acad96695dc', 1),
+(4, '2025-05-13 06:55:55', 'VEHICULO DETECTADO', 'a8bcb3b46a94c3a283178f48e78a022c869b519e8e556cbcea269320188d8adf', 1),
+(5, '2025-05-13 06:55:58', 'VEHICULO DETECTADO', 'fb74d75a2de8e2ec00fac6fb5b79f998db68977b1c4fd7a444a801f8b3c74915', 1),
+(6, '2025-05-13 06:56:11', 'VEHICULO DETECTADO', '2eeef95818a45bf9a190590ca1a9817229a587d1dfa6a081a0aa16f3f75d240a', 2),
+(7, '2025-05-13 06:56:57', 'VEHICULO DETECTADO', 'c9a6f2b4d0b32c326ca2b32ebe1882578c2142d0e090562af89797db8e3d0ab2', 2),
+(8, '2025-05-13 06:56:57', 'VEHICULO DETECTADO', 'eda820700d9ab0ca4b0b3d628b280b4511ca1379a35beb2a20d98a885c08a569', 2),
+(9, '2025-05-13 06:56:57', 'VEHICULO DETECTADO', '4179970cc5ff6a8d1796af8706310b69c3ebc4878b96a484db416a9647a5e0ff', 2),
+(10, '2025-05-13 06:56:57', 'VEHICULO DETECTADO', 'ad5f3725d2076c0cfeb9c895432bd00dd8f475b4881ab6941933bc035f26bc2d', 2),
+(11, '2025-05-13 06:57:11', 'VEHICULO DETECTADO', '3c412517825da263cd623ef6ec3747d2a628995dc816c3df8a45b0d1407461fa', 3),
+(12, '2025-05-13 06:57:16', 'VEHICULO DETECTADO', '9afba991399876bac995db9c332ff17d5f86141fc3502107aa4062435c84daf6', 3),
+(13, '2025-05-13 06:57:16', 'VEHICULO DETECTADO', 'b36b87612462c8963966f4129ad4c019e6029b4cc0b9990c9a7054f3e94d2bce', 3),
+(14, '2025-05-13 06:57:16', 'VEHICULO DETECTADO', '954ef92157c94b0d25c3d7e9ab18a43bc07045e9dda24a10c9853d87044e44b8', 3),
+(15, '2025-05-13 06:57:16', 'VEHICULO DETECTADO', '53ff5f63305480a06fcd0479e4eabf8510f3ef1de99b27ad89051baf6f7264ec', 3),
+(16, '2025-05-13 06:57:16', 'VEHICULO DETECTADO', '53ff5f63305480a06fcd0479e4eabf8510f3ef1de99b27ad89051baf6f7264ec', 4),
+(17, '2025-05-13 06:57:16', 'VEHICULO DETECTADO', '4f510665ac8bf3eea95f2af7310126bb40562496290f369b40f166cc949db5b0', 4),
+(18, '2025-05-13 06:57:16', 'VEHICULO DETECTADO', 'db4af68555c23c1eee606a434e3f01795e5474555fc3007cb84d4767476e4be2', 4),
+(19, '2025-05-13 06:57:17', 'VEHICULO DETECTADO', '071c14902dac13ce2568973067840d919707164b76ec9f7679301c27764cf734', 4),
+(20, '2025-05-13 07:08:13', 'VEHICULO DETECTADO', 'ca39f4ad6fd376dcae6147cdbb8a98bc7c1c6dfefa7aff5a4b408d597f8f8eaf', 4),
+(21, '2025-05-13 07:08:20', 'VEHICULO DETECTADO', 'a73d904768b1d1f9745e501366cd9148eec779dd6ac0fde9291a253c0ff71c25', 5),
+(22, '2025-05-13 07:08:21', 'VEHICULO DETECTADO', 'f62526fe25efdb2048da528bf8872bb74ae7e1de2ad403d39e19e44de913935d', 5),
+(23, '2025-05-13 07:08:27', 'VEHICULO DETECTADO', '5218d937a861bad6bae4d17df2be4cfb7d4134cc0ce508fdc73917ff2693c33b', 5),
+(24, '2025-05-13 07:08:35', 'VEHICULO DETECTADO', '36290ae513f99f8db25bcb52f3a9de6dc326bf8f1b48406da930ad5f3bf4a063', 5),
+(25, '2025-05-13 07:08:35', 'VEHICULO DETECTADO', 'c4cdbea2758e027053a18394858710c03e996d462fe9a84cf4b3a570e0c8c431', 5),
+(26, '2025-05-13 07:08:57', 'VEHICULO DETECTADO', '9e3420be226902a42a998d4d5dfb688517a7df51d96a882c20408c740ee2956a', 6),
+(27, '2025-05-13 07:08:58', 'VEHICULO DETECTADO', '3d3bfb21ae14f3bb8eb3c0688812eb85fc93f5e64ebfcf8dbc3931aeefe729a4', 6),
+(28, '2025-05-13 07:08:58', 'VEHICULO DETECTADO', 'd59caa3dfaa000b89ca957aca15e5cd809847194eb30b7111a7df4c0186fa8f4', 6),
+(29, '2025-05-13 07:09:10', 'VEHICULO DETECTADO', '96609dfb5f3ae78008d346f9fa8b259114216c3d697aa5367f6bffa8d324a7f5', 6),
+(30, '2025-05-13 07:09:21', 'VEHICULO DETECTADO', '5ba12d19f7c04b8b0a1b0e12a53287af0f915fc2fe6765a4f829d6853746f7bb', 6),
+(31, '2025-05-13 07:09:21', 'VEHICULO DETECTADO', '48ca44e52ec91b62d4e56c4f5934b908eb743703e9880cc32e31eff0125c0175', 7),
+(32, '2025-05-13 07:09:21', 'VEHICULO DETECTADO', '748b34766da9b93cfc60a5be43e3bcf4a6077b497d6539e272c469513384c1a6', 7),
+(33, '2025-05-13 07:43:01', 'VEHICULO DETECTADO', '0d3147a9e0798791adc04248996e8c7a129482e292b09f9ed6c81958badb4f03', 7),
+(34, '2025-05-13 07:43:01', 'VEHICULO DETECTADO', '245786845208e3041564bfef40d62e1ccdd00d4f4839b07d5ef0156f84f15d4a', 7),
+(35, '2025-05-13 07:43:02', 'VEHICULO DETECTADO', '9a81d503aa61986791b062e81331ef45e5c97d29c043164329691cf6be1a97e8', 7),
+(36, '2025-05-13 07:43:02', 'VEHICULO DETECTADO', '0eca3a586b768490248655f7349a2b21a5ba307a6262327b0749aeca31930fbc', 8),
+(37, '2025-05-13 07:43:02', 'VEHICULO DETECTADO', 'ec2e406b5faee742b0d8623ddfe2f6cafe0cfdaacfd92775fba32d87060c483b', 8),
+(38, '2025-05-13 07:43:02', 'VEHICULO DETECTADO', '32f675d90a1a706fba1d5244ed2eb6cfad847f983fee4cb38742ecca042870da', 8),
+(39, '2025-05-13 07:43:02', 'VEHICULO DETECTADO', 'ec2e406b5faee742b0d8623ddfe2f6cafe0cfdaacfd92775fba32d87060c483b', 8),
+(40, '2025-05-13 07:43:02', 'VEHICULO DETECTADO', 'adb6aeddc74ca8f59eb78797b4aa16a3e90b838f09262b01ab664c6cc271e91d', 8),
+(41, '2025-05-13 07:43:03', 'VEHICULO DETECTADO', '07c8f97d0045114e3f8d6f6469ad9a92baa057d08294a9bb348f99f4e8ef7475', 9),
+(42, '2025-05-13 07:43:03', 'VEHICULO DETECTADO', '2921596d2c1e9e1c5dfac1e0e9f9835f484a0dd7bdfa44f8675139da03fa3905', 9),
+(43, '2025-05-13 07:43:03', 'VEHICULO DETECTADO', '55e281d6525e2ae8d03eb63e962b7832f719e20b5f852c87f090582319ef8085', 9),
+(44, '2025-05-13 07:43:03', 'VEHICULO DETECTADO', 'ecc9c914983213de2216e8c49e01fea2089c30d01038b9f15db13bf74f0464ab', 9),
+(45, '2025-05-13 07:43:05', 'VEHICULO DETECTADO', '2f6da8109a9b843757133bda01f054537d19212548d9680b61a19cf458a45301', 9),
+(46, '2025-05-13 07:43:08', 'VEHICULO DETECTADO', '956fd900c229ae2fb59050d35e15665a28a15a9b7012b3442be3826e9acca032', 10),
+(47, '2025-05-13 07:43:18', 'VEHICULO DETECTADO', '11b55f4fa34a0740a3ba4f5178fb8aee64eb9da9164a2ffec759248d0734d2e4', 10),
+(48, '2025-05-13 07:43:25', 'VEHICULO DETECTADO', 'ed5be24681960e7102cc55fce1a25658da038396237113a3ea1997c691938a23', 10),
+(49, '2025-05-13 07:43:25', 'VEHICULO DETECTADO', '7880e9baaaab0ca8d9646565c0865f0cb62fe74dd07e16b7bdce41c0314be534', 10),
+(50, '2025-05-13 07:43:27', 'VEHICULO DETECTADO', 'b31b4eb0abcf3f5b41e0fc03f110b0c3df96aced3b84510102b9f4bd1b3fdc8b', 10),
+(51, '2025-05-13 07:43:31', 'VEHICULO DETECTADO', '526be04f80b9a66723e7986014cc2970eef8d200bd14cc10d179abf235d97fe0', 11),
+(52, '2025-05-13 07:43:47', 'VEHICULO DETECTADO', '057ef1ba1c04c287160b878af22b4afc1f0fa4d3db8b2414511671c9e67c3497', 11),
+(53, '2025-05-13 07:44:33', 'VEHICULO DETECTADO', 'ad0aa703f12476e7e8877cffa266d34554081e5db12644ff47696c4e2e67bc71', 11),
+(54, '2025-05-13 07:47:02', 'VEHICULO DETECTADO', '0650ab300cb5812871e29913884f7676ad5a3fecaf04eb272232873f6232c652', 11),
+(55, '2025-05-13 07:47:03', 'VEHICULO DETECTADO', 'b8d9edab435564079ab7ade3b0f089cdf10def449cfe9fda8dadab494d3077f9', 11),
+(56, '2025-05-13 07:47:03', 'VEHICULO DETECTADO', '887ffd22165c0ddb7a531b65b20fbcf1999720a31709efa7dd3bb2ffbf7052da', 12),
+(57, '2025-05-13 07:47:03', 'VEHICULO DETECTADO', '1f6683b2532e3f4ffecd44f6842834593d3064faead089510a120ef03a2fdb39', 12),
+(58, '2025-05-13 07:47:03', 'VEHICULO DETECTADO', '29aa1f387f5305e8f70099513092cea202e4564459f1fb5387d672c57109c007', 12),
+(59, '2025-05-13 07:47:03', 'VEHICULO DETECTADO', '29aa1f387f5305e8f70099513092cea202e4564459f1fb5387d672c57109c007', 12),
+(60, '2025-05-13 07:47:03', 'VEHICULO DETECTADO', '585316735639ebe3a9b5b77b48eb3c9098cc29b3d39ea5fe841cce6c5d413a04', 12),
+(61, '2025-05-13 07:47:03', 'VEHICULO DETECTADO', 'b83d04c2ff4a20012731cde845e1e97c8422060bcfa598bc2fa2995d2cce6e56', 13),
+(62, '2025-05-13 07:47:03', 'VEHICULO DETECTADO', '585316735639ebe3a9b5b77b48eb3c9098cc29b3d39ea5fe841cce6c5d413a04', 13),
+(63, '2025-05-13 07:47:04', 'VEHICULO DETECTADO', '8e03209771423053470767f87d692428cb96b88b621b3a6d9b4803dbb21c7d3f', 13),
+(64, '2025-05-13 07:47:04', 'VEHICULO DETECTADO', '01aa7bc1e744dbe0b6d3abd7b5ae11beced468a202f4e5ce7c895bed0ab058db', 13),
+(65, '2025-05-13 07:47:04', 'VEHICULO DETECTADO', '345c0cb6d4c31d1d013de29a2dcd30c253052cb670540a5de9de12a2c1336158', 13),
+(66, '2025-05-13 07:47:04', 'VEHICULO DETECTADO', '219c7afc8dd1d955a2fb8dac3c6623a74c30eb37478199a48c3d251a302387fb', 14),
+(67, '2025-05-13 07:47:04', 'VEHICULO DETECTADO', '219c7afc8dd1d955a2fb8dac3c6623a74c30eb37478199a48c3d251a302387fb', 14),
+(68, '2025-05-13 07:47:04', 'VEHICULO DETECTADO', '219c7afc8dd1d955a2fb8dac3c6623a74c30eb37478199a48c3d251a302387fb', 14),
+(69, '2025-05-13 07:47:04', 'VEHICULO DETECTADO', '8e03209771423053470767f87d692428cb96b88b621b3a6d9b4803dbb21c7d3f', 14),
+(70, '2025-05-13 07:47:05', 'VEHICULO DETECTADO', '0511730e85a3378ee608fd7c8ea52ef3f632be402927bf9ecf8f40934ef654f7', 14),
+(71, '2025-05-13 07:47:05', 'VEHICULO DETECTADO', '1525b3bad33c7d322a67c5b14cbbaab5c3b1f6acf2ffbb4c5307f1ff4188724d', 15),
+(72, '2025-05-13 07:47:07', 'VEHICULO DETECTADO', '9e8003a84721fe3c0fa98589a057ea9ec8347b295cb6534e2f9018bb0c0751a3', 15),
+(73, '2025-05-13 07:47:10', 'VEHICULO DETECTADO', 'f12b13b8da5997865ae20d03301a07a05f00b3eb1f75b838bcc995dede61e8b2', 15),
+(74, '2025-05-13 07:47:13', 'VEHICULO DETECTADO', '5895bd6a35a0d2d4360fea6b1fac51adda422e023f59b6441b03f3a935e0cb9d', 15),
+(75, '2025-05-13 07:47:16', 'VEHICULO DETECTADO', 'fb0d2c3d6bb691ef3036a3193fd205f853de26b03d9ef55d26f28b0ee7094add', 15),
+(76, '2025-05-13 07:47:19', 'VEHICULO DETECTADO', '24d2812cfc6072f33c1049660e33588e647ca19722d4fe2401fc5e472dab5606', 16),
+(77, '2025-05-13 07:47:22', 'VEHICULO DETECTADO', '0f1bdd4d76d4ecaa8e7428de999600538ac25dab25d3b9f171ea1a14e75cfd84', 16),
+(78, '2025-05-13 07:47:25', 'VEHICULO DETECTADO', 'cf6b16fb294c4674a4b2de9d7dddac6ea83c8e636f206e1298f31dc309bd8e96', 16),
+(79, '2025-05-13 07:47:28', 'VEHICULO DETECTADO', 'f317e9f9c145ffdfb0754f98448d058099db36abd5fd04bbdf0002f373b34c5e', 16),
+(80, '2025-05-13 07:48:33', 'VEHICULO DETECTADO', '54a086154263452881c60e4a36c515fa56054883d7d8db5363a9302ef4078306', 16),
+(81, '2025-05-13 07:54:46', 'VEHICULO DETECTADO', '8f368199c21eb545de718360837aa1f84fd023aedbe7c4e495ae1e9b29b7fbf9', NULL),
+(82, '2025-05-13 07:54:47', 'VEHICULO DETECTADO', '724f51ce8bdff008ded5aa55a048495aa21fc4b4a69e1af256db5286608479c8', NULL),
+(83, '2025-05-13 08:07:00', 'VEHICULO DETECTADO', '844c84548219ca29bf1945c270914bde808ab47750ce1a1c17ca8eb9a291b04a', NULL);
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `automovil`
+--
+ALTER TABLE `automovil`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `blockchain`
+--
+ALTER TABLE `blockchain`
+  ADD PRIMARY KEY (`indice`);
+
+--
+-- Indices de la tabla `distancias`
+--
+ALTER TABLE `distancias`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `registros_peaje`
+--
+ALTER TABLE `registros_peaje`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `automovil`
+--
+ALTER TABLE `automovil`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT de la tabla `distancias`
+--
+ALTER TABLE `distancias`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+
+--
+-- AUTO_INCREMENT de la tabla `registros_peaje`
+--
+ALTER TABLE `registros_peaje`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

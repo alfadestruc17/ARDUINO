@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Control de Vehículos</title>
-    <link rel="stylesheet" href="../static/css/dashboard.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -23,9 +23,9 @@
                 <div class="stat-icon">
                     <i class="fas fa-car"></i>
                 </div>
-                <div class="stat-value">247</div>
+                <div class="stat-value">{{ vehiculos_hoy }}</div>
                 <div class="stat-label">Vehículos Hoy</div>
-                <div class="stat-change">+12% vs ayer</div>
+                <div class="stat-change">{{ change_vehiculos|round(2) }}% vs ayer</div>
             </div>
 
             <!-- Ingresos generados -->
@@ -33,9 +33,9 @@
                 <div class="stat-icon">
                     <i class="fas fa-dollar-sign"></i>
                 </div>
-                <div class="stat-value">$1,850</div>
+                <div class="stat-value">{{ ingresos_totales_str }}</div>
                 <div class="stat-label">Ingresos Totales</div>
-                <div class="stat-change">+8% vs ayer</div>
+                <div class="stat-change">{{ change_ingresos|round(2) }}% vs ayer</div>
             </div>
 
             <!-- Promedio por hora -->
@@ -43,9 +43,9 @@
                 <div class="stat-icon">
                     <i class="fas fa-clock"></i>
                 </div>
-                <div class="stat-value">10.3</div>
-                <div class="stat-label">Promedio por Hora</div>
-                <div class="stat-change">+1.2 vs promedio</div>
+                <div class="stat-value">{{ promedio_por_hora|round(1) }}</div>
+                <div class="stat-label">Saldo promedio por vehículo</div>
+                <div class="stat-change">{{ change_promedio|round(2) }}% vs promedio</div>
             </div>
         </div>
 
@@ -53,41 +53,68 @@
         <div class="time-stats-section">
             <h2><i class="fas fa-chart-bar"></i> Estadísticas de Tiempo</h2>
             <div class="time-stats-grid">
-                <!-- Hora pico -->
+                <!-- Vehículos con saldo -->
                 <div class="time-stat-item peak">
-                    <div class="time-stat-value">08:30 AM</div>
-                    <div class="time-stat-label">Hora Pico del Día</div>
+                    <div class="time-stat-value">{{ hora_pico }}</div>
+                    <div class="time-stat-label">Vehículos con Saldo</div>
                     <div style="margin-top: 10px; font-size: 0.8rem; color: #e74c3c;">
-                        <i class="fas fa-exclamation-triangle"></i> 45 vehículos en 30 min
+                        <i class="fas fa-exclamation-triangle"></i> {{ max_hora_conteo }} con saldo positivo
                     </div>
                 </div>
 
-                <!-- Tiempo promedio entre vehículos -->
+                <!-- Promedio de saldo -->
                 <div class="time-stat-item average">
-                    <div class="time-stat-value">5.8 min</div>
-                    <div class="time-stat-label">Tiempo Promedio Entre Vehículos</div>
+                    <div class="time-stat-value">${{ (tiempo_promedio_min or 0) | round(1) }}</div>
+                    <div class="time-stat-label">Promedio de Saldo</div>
                     <div style="margin-top: 10px; font-size: 0.8rem; color: #2ecc71;">
-                        <i class="fas fa-check-circle"></i> Flujo estable
+                        <i class="fas fa-check-circle"></i> Saldo promedio
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- Vehículos Registrados -->
+        <div class="time-stats-section">
+            <h2><i class="fas fa-car"></i> Últimos 10 Vehículos Registrados</h2>
+            <div class="vehicles-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Placa</th>
+                            <th>Saldo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for auto in automoviles %}
+                        <tr>
+                            <td>{{ auto.id }}</td>
+                            <td>{{ auto.placa }}</td>
+                            <td>${{ auto.saldo }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <!-- Gráficos (Chart.js) -->
         <div class="time-stats-section">
-            <h2><i class="fas fa-chart-line"></i> Gráfico de Vehículos por Hora</h2>
+            <h2><i class="fas fa-chart-line"></i> Saldo por vehículo (últimos 10)</h2>
             <canvas id="vehiculosChart" height="120"></canvas>
         </div>
 
         <!-- Información adicional -->
-        <div style="text-align: center; margin-top: 30px; color: white; opacity: 0.8;">
-            <p><i class="fas fa-sync-alt"></i> Última actualización: Hoy a las 14:30</p>
+        <div style="text-align: center; margin-top: 30px; color: rgb(97, 90, 90); opacity: 0.8;">
+            <p><i class="fas fa-sync-alt"></i> Última actualización: {{ ultima_actualizacion }}</p>
             <p style="font-size: 0.9rem; margin-top: 10px;">
                 Sistema de control automatizado - Versión 1.0
             </p>
         </div>
     </div>
 
+    <script id="labels-json" type="application/json">{{ labels | default([]) | tojson }}</script>
+    <script id="data-json" type="application/json">{{ data | default([]) | tojson }}</script>
     <script>
         // Simulación de actualización en tiempo real (para futura implementación)
         function updateTime() {
@@ -105,16 +132,23 @@
         setInterval(updateTime, 10000);
         updateTime(); // Ejecutar inmediatamente
 
+        // Datos del gráfico cargados desde tags JSON
+        const labelsData = JSON.parse(document.getElementById('labels-json').textContent);
+        const seriesData = JSON.parse(document.getElementById('data-json').textContent);
+        // Escalado dinámico según los datos reales
+        const maxVal = Math.max(...seriesData, 0);
+        const step = maxVal <= 10 ? 1 : Math.ceil(maxVal / 5);
+
         // Inicializar gráfico sencillo con Chart.js
         const ctx = document.getElementById('vehiculosChart');
         if (ctx) {
             new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: ['06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00'],
-                    datasets: [{
-                        label: 'Vehículos por hora',
-                        data: [5, 12, 30, 45, 38, 25, 20],
+                    labels: labelsData,
+                        datasets: [{
+                            label: 'Saldo por vehículo',
+                        data: seriesData,
                         borderColor: '#007bff',
                         backgroundColor: 'rgba(0, 123, 255, 0.2)',
                         tension: 0.3,
@@ -127,7 +161,7 @@
                     plugins: { legend: { display: true } },
                     scales: {
                         x: { grid: { display: false } },
-                        y: { beginAtZero: true, ticks: { stepSize: 10 } }
+                        y: { beginAtZero: true, ticks: { stepSize: step }, suggestedMax: maxVal + step }
                     }
                 }
             });
