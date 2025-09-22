@@ -1,10 +1,13 @@
 # app.py
-from flask import Flask, render_template, request, redirect, url_for, flash, Response
+from flask import Flask, render_template, request, redirect, url_for, flash, Response, jsonify, send_file
 from config.config import config
 from services.arduino_service import ArduinoService
 import logging, os
 import cv2
 from ultralytics import YOLO
+import pytesseract
+import re
+import io
 
 
 # configuración básica
@@ -16,8 +19,11 @@ logging.basicConfig(level=app_cfg.LOG_LEVEL)
 
 arduino = ArduinoService(base_url=app_cfg.BASE_URL)
 
-model = YOLO("yolo11n.pt")  
+model = YOLO("best.pt")
 
+# Variables globales
+last_plate_crop = None
+last_plate_text = ""
 
 @app.route("/")
 def index():
@@ -42,28 +48,75 @@ def send():
         flash("Error enviando comando al ESP", "error")
     return redirect(url_for('index'))
 
+
 def gen():
-    cap = cv2.VideoCapture(2)  # cámara 2
+    global last_plate_crop, last_plate_text
+    cap = cv2.VideoCapture(2)  # cámara (ajusta índice)
     while True:
         ret, frame = cap.read()
         if not ret:
             break
 
-        # --- detecciones YOLO ---
-        results = model(frame, verbose=False)  # sin logs en consola
-        annotated_frame = results[0].plot()    # dibuja las cajas sobre el frame
+        # Detección YOLO
+        results = model(frame, verbose=False)
+        annotated_frame = frame.copy()
 
-        # Codificar el frame con cajas resaltadas
+        for result in results:
+            index_plates = (result.boxes.cls == 0).nonzero(as_tuple=True)[0]  # clase placa
+            for idx in index_plates:
+                conf = result.boxes.conf[idx].item()
+                if conf > 0.5:
+                    xyxy = result.boxes.xyxy[idx].squeeze().tolist()
+                    x1, y1, x2, y2 = map(int, xyxy)
+
+                    # Recorte de la placa
+                    plate_crop = frame[max(0, y1-15):y2+15, max(0, x1-15):x2+15]
+                    if plate_crop.size > 0:
+                        last_plate_crop = plate_crop
+                        # Save for debugging
+                        cv2.imwrite("debug_plate.jpg", plate_crop)
+
+                        # OCR with Tesseract
+                        text = pytesseract.image_to_string(plate_crop, lang='eng')
+                        logging.info(f"OCR text: {text}")
+                        # Clean the text: keep only alphanumeric, uppercase
+                        cleaned_text = re.sub(r'[^A-Z0-9]', '', text.upper())
+                        if cleaned_text:  # Only update if OCR found text
+                            last_plate_text = cleaned_text
+                        logging.info(f"Final plate text: {last_plate_text}")
+
+                    # Dibujar sobre el frame
+                    cv2.rectangle(annotated_frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
+                    cv2.putText(annotated_frame, last_plate_text, (x1, y1 - 10),
+                                cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 255, 0), 2)
+
+        # Codificar frame para enviar al navegador
         ret, buffer = cv2.imencode('.jpg', annotated_frame)
-        frame = buffer.tobytes()
+        frame_bytes = buffer.tobytes()
 
-        # Enviar al navegador
         yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-
+               b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n')
 @app.route('/video_feed')
 def video_feed():
     return Response(gen(), mimetype='multipart/x-mixed-replace; boundary=frame')
+
+
+@app.route("/get_plate_text")
+def get_plate_text():
+    """Devuelve el texto de la placa en JSON para actualizar input en frontend"""
+    return jsonify({"text": last_plate_text})
+
+@app.route("/get_plate_crop")
+def get_plate_crop():
+    global last_plate_crop
+    if last_plate_crop is None:
+        return ("", 204)  # No Content si aún no hay placas
+
+    # Convertir el recorte a JPG en memoria
+    _, buffer = cv2.imencode('.jpg', last_plate_crop)
+    io_buf = io.BytesIO(buffer)
+    return send_file(io_buf, mimetype='image/jpeg')
+
 
 if __name__ == "__main__":
     app.run(debug=app_cfg.DEBUG, host="0.0.0.0", port=5000)
