@@ -1,4 +1,3 @@
-<!-- templates/index.html -->
 <!doctype html>
 <html lang="es">
 <head>
@@ -6,6 +5,30 @@
   <title>Control Talanguera</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script>
+    async function updatePlateText() {
+      try {
+        const res = await fetch("/get_plate_text");
+        if (res.ok) {
+          const data = await res.json();
+          document.getElementById("plate_text").value = data.text;
+        }
+        // Update plate image
+        const imgRes = await fetch("/get_plate_crop");
+        if (imgRes.ok && imgRes.status !== 204) {
+          const imgBlob = await imgRes.blob();
+          const imgUrl = URL.createObjectURL(imgBlob);
+          document.getElementById("plate_img").src = imgUrl;
+        } else if (imgRes.status === 204) {
+          document.getElementById("plate_img").src = "";
+        }
+      } catch (err) {
+        console.error("Error al obtener datos de la placa:", err);
+      }
+    }
+    // Actualizar cada 2 segundos
+    setInterval(updatePlateText, 2000);
+  </script>
 </head>
 <body class="p-4">
   <div class="container">
@@ -20,21 +43,41 @@
       {% endif %}
     {% endwith %}
 
+    <!-- Botones de control -->
     <form method="post" action="{{ url_for('send') }}">
       <div class="mb-3">
-        <button name="action" value="open" class="btn btn-primary">Abrir Talanguera ({{ open_angle }}°)</button>
-        <button name="action" value="close" class="btn btn-secondary">Cerrar Talanguera ({{ closed_angle }}°)</button>
+        <button name="action" value="open" class="btn btn-primary">
+          Abrir Talanguera ({{ open_angle }}°)
+        </button>
+        <button name="action" value="close" class="btn btn-secondary">
+          Cerrar Talanguera ({{ closed_angle }}°)
+        </button>
       </div>
 
       <div class="form-check">
         <input class="form-check-input" type="checkbox" value="1" id="force" name="force">
-        <label class="form-check-label" for="force">Forzar orden (ignorar sensor en Mega si tu firmware lo soporta)</label>
+        <label class="form-check-label" for="force">
+          Forzar orden (ignorar sensor en Mega si tu firmware lo soporta)
+        </label>
       </div>
     </form>
 
+    <!-- Video en vivo -->
     <div class="mt-4">
       <h2>Cámara Web 2</h2>
-      <img src="{{ url_for('video_feed') }}" width="640" height="480" />
+      <img src="{{ url_for('video_feed') }}" width="640" height="480" class="border rounded shadow-sm" />
+    </div>
+
+    <!-- Resultados de la placa -->
+    <div class="mt-4 row">
+      <div class="col-md-6">
+        <h3>Placa detectada (recorte)</h3>
+        <img id="plate_img" class="border rounded" width="300" height="150" alt="Recorte de placa" />
+      </div>
+      <div class="col-md-6">
+        <h3>Texto de la placa</h3>
+        <input type="text" id="plate_text" class="form-control form-control-lg" readonly>
+      </div>
     </div>
   </div>
 </body>
