@@ -23,3 +23,21 @@ class Conexion:
         except Error as e:
             print(f"❌ Error al conectar con MySQL: {e}")
             self.connection = None
+
+    def cerrar(self):
+        if self.connection and self.connection.is_connected():
+            self.connection.close()
+            print("🔒 Conexión cerrada")
+
+
+    def obtener_automoviles(self):
+        """Devuelve todos los automóviles registrados"""
+        try:
+            cursor = self.connection.cursor(dictionary=True)
+            cursor.execute("SELECT id, placa, saldo FROM automovil")
+            return cursor.fetchall()
+        except Error as e:
+            print(f"❌ Error al obtener automóviles: {e}")
+            return []
+        finally:
+            cursor.close()
