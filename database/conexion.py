@@ -34,7 +34,7 @@ class Conexion:
         cursor = None
         try:
             cursor = self.connection.cursor(dictionary=True)
-            cursor.execute("SELECT * FROM automoviles")
+            cursor.execute("SELECT id, placa, saldo FROM automovil")
             resultados = cursor.fetchall()
             return resultados
         except Exception as e:

@@ -7,8 +7,6 @@ from database.conexion import Conexion
 import logging, os
 from datetime import datetime
 
-# Ruta al ejecutable de Tesseract
-pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
 # configuración básica
 env = os.getenv('FLASK_ENV', 'development')
