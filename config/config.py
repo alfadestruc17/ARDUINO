@@ -15,7 +15,7 @@ class Config:
     DEBUG = os.getenv('FLASK_DEBUG', 'True').lower() == 'true'
 
     # Arduino/ESP por IP
-    ARDUINO_IP = os.getenv('ARDUINO_IP', '192.168.101.72')
+    ARDUINO_IP = os.getenv('ARDUINO_IP')
     BASE_URL = f"http://{ARDUINO_IP}".rstrip("/")
 
     # Comportamiento del servo
