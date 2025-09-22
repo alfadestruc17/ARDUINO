@@ -62,7 +62,7 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link active" href="dashboard">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link active" href="{{ url_for('dashboard.dashboard') }}">Inicio</a></li>
           <li class="nav-item"><a class="nav-link" href="#">Automóviles</a></li>
           <li class="nav-item"><a class="nav-link" href="#">Configuración</a></li>
         </ul>
@@ -88,7 +88,7 @@
     {% endwith %}
 
     <!-- Botones Talanguera -->
-    <form method="post" action="{{ url_for('send') }}">
+    <form method="post" action="{{ url_for('main.send') }}">
       <div class="mb-3">
         <button name="action" value="open" class="btn btn-primary">Abrir Talanquera ({{ open_angle }}°)</button>
         <button name="action" value="close" class="btn btn-secondary">Cerrar Talanguera ({{ closed_angle }}°)</button>
@@ -103,7 +103,7 @@
     <!-- Video y resultados de placa -->
     <div class="mt-4">
       <h2>Cámara Web 2</h2>
-      <img src="{{ url_for('video_feed') }}" width="640" height="480" class="border rounded shadow-sm" />
+      <img src="{{ url_for('video.video_feed') }}" width="640" height="480" class="border rounded shadow-sm" />
     </div>
 
     <div class="mt-4">
@@ -115,7 +115,7 @@
 
     <!-- Formulario Registrar Automóvil -->
     <h2>Registrar Automóvil</h2>
-    <form method="post" action="{{ url_for('add_car') }}">
+    <form method="post" action="{{ url_for('car.add_car') }}">
       <div class="mb-3">
         <label for="placa_manual" class="form-label">Placa (3 caracteres)</label>
         <input type="text" class="form-control" id="placa_manual" name="placa_manual" maxlength="3" required>
@@ -127,7 +127,7 @@
 
     <!-- Formulario Recargar Saldo -->
     <h2>Recargar Saldo</h2>
-    <form method="post" action="{{ url_for('update_saldo') }}">
+    <form method="post" action="{{ url_for('car.update_saldo') }}">
       <div class="mb-3">
         <label for="placa" class="form-label">Placa del Vehículo</label>
         <input type="text" class="form-control" id="placa" name="placa" maxlength="3" required>
