@@ -54,7 +54,7 @@
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Talanguera</a>
+      <a class="navbar-brand" href="#">Talanquera</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
               data-bs-target="#navbarNav" aria-controls="navbarNav" 
               aria-expanded="false" aria-label="Toggle navigation">
@@ -90,7 +90,7 @@
     <!-- Botones Talanguera -->
     <form method="post" action="{{ url_for('send') }}">
       <div class="mb-3">
-        <button name="action" value="open" class="btn btn-primary">Abrir Talanguera ({{ open_angle }}°)</button>
+        <button name="action" value="open" class="btn btn-primary">Abrir Talanquera ({{ open_angle }}°)</button>
         <button name="action" value="close" class="btn btn-secondary">Cerrar Talanguera ({{ closed_angle }}°)</button>
       </div>
       <div class="form-check mb-4">
@@ -121,6 +121,22 @@
         <input type="text" class="form-control" id="placa_manual" name="placa_manual" maxlength="3" required>
       </div>
       <button type="submit" class="btn btn-success">Registrar</button>
+    </form>
+
+    <hr>
+
+    <!-- Formulario Recargar Saldo -->
+    <h2>Recargar Saldo</h2>
+    <form method="post" action="{{ url_for('update_saldo') }}">
+      <div class="mb-3">
+        <label for="placa" class="form-label">Placa del Vehículo</label>
+        <input type="text" class="form-control" id="placa" name="placa" maxlength="3" required>
+      </div>
+      <div class="mb-3">
+        <label for="nuevo_saldo" class="form-label">Monto a Recargar ($)</label>
+        <input type="number" class="form-control" id="nuevo_saldo" name="nuevo_saldo" step="0.01" min="0.01" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Recargar Saldo</button>
     </form>
   </div>
 </body>
