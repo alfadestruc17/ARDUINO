@@ -27,6 +27,55 @@
     }
     setInterval(updatePlateText, 2000);
   </script>
+  <style>
+    body {
+      min-height: 100vh;
+      background-color: #205284;
+      margin: 0;
+    }
+    .center-wrapper {
+      min-height: calc(100vh - 56px); /* resta la altura del navbar */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .contenedor {
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 20px;
+      background: #f1f1f3;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      max-width: 700px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Talanguera</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+              data-bs-target="#navbarNav" aria-controls="navbarNav" 
+              aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link active" href="#">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Automóviles</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Configuración</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Contenido centrado -->
+  <div class="center-wrapper">
+    <div class="contenedor">
+      <h1>Control Talanguera</h1>
+      <hr>
+
 </head>
 <body class="p-4">
   <div class="container">
