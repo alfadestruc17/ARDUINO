@@ -3,10 +3,16 @@ from flask import Flask, render_template, request, redirect, url_for, flash, Res
 from config.config import config
 from services.arduino_service import ArduinoService
 from database.conexion import Conexion
+from ultralytics import YOLO
 
+import pytesseract
+import re
+import io
 import logging, os
+import cv2
 from datetime import datetime
 
+model = YOLO("best.pt")
 
 # configuración básica
 env = os.getenv('FLASK_ENV', 'development')
@@ -53,7 +59,7 @@ def send():
 
 def gen():
     global last_plate_crop, last_plate_text
-    cap = cv2.VideoCapture(1)  # cámara (ajusta índice)
+    cap = cv2.VideoCapture(2)  # cámara (ajusta índice)
     while True:
         ret, frame = cap.read()
         if not ret:

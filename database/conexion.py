@@ -2,7 +2,7 @@ import mysql.connector
 from mysql.connector import Error
 
 class Conexion:
-    def __init__(self, host="localhost", database="arduino_peaje", user="root", password=""):
+    def __init__(self, host="localhost", database="arduino_peaje", user="root", password="1234"):
         self.host = host
         self.database = database
         self.user = user
