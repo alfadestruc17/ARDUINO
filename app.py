@@ -11,6 +11,8 @@ import pytesseract
 import re
 import io
 
+# Ruta al ejecutable de Tesseract
+pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
 # configuración básica
 env = os.getenv('FLASK_ENV', 'development')
@@ -59,7 +61,7 @@ def send():
 
 def gen():
     global last_plate_crop, last_plate_text
-    cap = cv2.VideoCapture(2)  # cámara (ajusta índice)
+    cap = cv2.VideoCapture(1)  # cámara (ajusta índice)
     while True:
         ret, frame = cap.read()
         if not ret:
