@@ -4,6 +4,8 @@ from config.config import config
 from services.arduino_service import ArduinoService
 import logging, os
 import cv2
+from ultralytics import YOLO
+
 
 # configuración básica
 env = os.getenv('FLASK_ENV', 'development')
@@ -13,6 +15,9 @@ app.config.from_object(app_cfg)
 logging.basicConfig(level=app_cfg.LOG_LEVEL)
 
 arduino = ArduinoService(base_url=app_cfg.BASE_URL)
+
+model = YOLO("yolo11n.pt")  
+
 
 @app.route("/")
 def index():
@@ -38,13 +43,21 @@ def send():
     return redirect(url_for('index'))
 
 def gen():
-    cap = cv2.VideoCapture(2)  # camera 1 (second camera)
+    cap = cv2.VideoCapture(2)  # cámara 2
     while True:
         ret, frame = cap.read()
         if not ret:
             break
-        ret, buffer = cv2.imencode('.jpg', frame)
+
+        # --- detecciones YOLO ---
+        results = model(frame, verbose=False)  # sin logs en consola
+        annotated_frame = results[0].plot()    # dibuja las cajas sobre el frame
+
+        # Codificar el frame con cajas resaltadas
+        ret, buffer = cv2.imencode('.jpg', annotated_frame)
         frame = buffer.tobytes()
+
+        # Enviar al navegador
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
