@@ -8,7 +8,7 @@ from ultralytics import YOLO
 import pytesseract
 import re
 import io
-import logging, os
+import logging, os, time
 import cv2
 from datetime import datetime
 
@@ -118,6 +118,17 @@ def add_car():
         try:
             db.registrar_automovil(placa, 50)  # saldo inicial 50
             flash(f"✅ Automóvil {placa} registrado con saldo inicial de 50.", "success")
+            # Abrir barrera
+            ok_open = arduino.send_angle(app_cfg.OPEN_ANGLE)
+            if ok_open:
+                time.sleep(15)
+                ok_close = arduino.send_angle(app_cfg.CLOSED_ANGLE)
+                if ok_close:
+                    flash("Barrera abierta y cerrada correctamente.", "success")
+                else:
+                    flash("Error cerrando barrera.", "error")
+            else:
+                flash("Error abriendo barrera.", "error")
         except Exception as e:
             flash(f" Error al registrar automóvil: {e}", "danger")
     return redirect(url_for("index"))
