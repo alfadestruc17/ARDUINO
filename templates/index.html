@@ -11,7 +11,7 @@
         const res = await fetch("/get_plate_text");
         if (res.ok) {
           const data = await res.json();
-          document.getElementById("plate_text").value = data.text;
+          document.getElementById("placa_manual").value = data.text;
         }
         const imgRes = await fetch("/get_plate_crop");
         if (imgRes.ok && imgRes.status !== 204) {
@@ -54,7 +54,7 @@
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Talanguera</a>
+      <a class="navbar-brand" href="#">Talanquera</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
               data-bs-target="#navbarNav" aria-controls="navbarNav" 
               aria-expanded="false" aria-label="Toggle navigation">
@@ -76,11 +76,6 @@
       <h1>Control Talanguera</h1>
       <hr>
 
-</head>
-<body class="p-4">
-  <div class="container">
-    <h1>Control Talanguera</h1>
-
     <!-- Mensajes Flash -->
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
@@ -95,7 +90,7 @@
     <!-- Botones Talanguera -->
     <form method="post" action="{{ url_for('send') }}">
       <div class="mb-3">
-        <button name="action" value="open" class="btn btn-primary">Abrir Talanguera ({{ open_angle }}°)</button>
+        <button name="action" value="open" class="btn btn-primary">Abrir Talanquera ({{ open_angle }}°)</button>
         <button name="action" value="close" class="btn btn-secondary">Cerrar Talanguera ({{ closed_angle }}°)</button>
       </div>
       <div class="form-check mb-4">
@@ -105,23 +100,15 @@
     </form>
     <hr>
 
-    <hr>
-
     <!-- Video y resultados de placa -->
     <div class="mt-4">
       <h2>Cámara Web 2</h2>
       <img src="{{ url_for('video_feed') }}" width="640" height="480" class="border rounded shadow-sm" />
     </div>
 
-    <div class="mt-4 row">
-      <div class="col-md-6">
-        <h3>Placa detectada (recorte)</h3>
-        <img id="plate_img" class="border rounded" width="300" height="150" alt="Recorte de placa" />
-      </div>
-      <div class="col-md-6">
-        <h3>Texto de la placa</h3>
-        <input type="text" id="plate_text" name="placa" class="form-control form-control-lg" readonly>
-      </div>
+    <div class="mt-4">
+      <h3>Placa detectada (recorte)</h3>
+      <img id="plate_img" class="border rounded" width="300" height="150" alt="Recorte de placa" />
     </div>
 
     <hr>
@@ -134,6 +121,22 @@
         <input type="text" class="form-control" id="placa_manual" name="placa_manual" maxlength="3" required>
       </div>
       <button type="submit" class="btn btn-success">Registrar</button>
+    </form>
+
+    <hr>
+
+    <!-- Formulario Recargar Saldo -->
+    <h2>Recargar Saldo</h2>
+    <form method="post" action="{{ url_for('update_saldo') }}">
+      <div class="mb-3">
+        <label for="placa" class="form-label">Placa del Vehículo</label>
+        <input type="text" class="form-control" id="placa" name="placa" maxlength="3" required>
+      </div>
+      <div class="mb-3">
+        <label for="nuevo_saldo" class="form-label">Monto a Recargar ($)</label>
+        <input type="number" class="form-control" id="nuevo_saldo" name="nuevo_saldo" step="0.01" min="0.01" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Recargar Saldo</button>
     </form>
   </div>
 </body>

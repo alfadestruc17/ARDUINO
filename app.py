@@ -3,10 +3,16 @@ from flask import Flask, render_template, request, redirect, url_for, flash, Res
 from config.config import config
 from services.arduino_service import ArduinoService
 from database.conexion import Conexion
+from ultralytics import YOLO
 
+import pytesseract
+import re
+import io
 import logging, os
+import cv2
 from datetime import datetime
 
+model = YOLO("best.pt")
 
 # configuración básica
 env = os.getenv('FLASK_ENV', 'development')
@@ -53,7 +59,7 @@ def send():
 
 def gen():
     global last_plate_crop, last_plate_text
-    cap = cv2.VideoCapture(1)  # cámara (ajusta índice)
+    cap = cv2.VideoCapture(2)  # cámara (ajusta índice)
     while True:
         ret, frame = cap.read()
         if not ret:
@@ -102,18 +108,43 @@ def gen():
 def video_feed():
     return Response(gen(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
-# 🚀 Nueva ruta para registrar autos
+#  ruta para registrar autos
 @app.route("/add_car", methods=["POST"])
 def add_car():
-    placa = request.form.get("placa", "").strip().upper()
+    placa = request.form.get("placa_manual", "").strip().upper()
     if len(placa) != 3:
-        flash("❌ La placa debe tener exactamente 3 caracteres.", "danger")
+        flash(" La placa debe tener exactamente 3 caracteres.", "danger")
     else:
         try:
             db.registrar_automovil(placa, 50)  # saldo inicial 50
             flash(f"✅ Automóvil {placa} registrado con saldo inicial de 50.", "success")
         except Exception as e:
-            flash(f"❌ Error al registrar automóvil: {e}", "danger")
+            flash(f" Error al registrar automóvil: {e}", "danger")
+    return redirect(url_for("index"))
+
+#ruta para recargar saldo o actualizar saldo
+@app.route("/update_saldo", methods=["POST"])
+def update_saldo():
+    placa = request.form.get("placa", "").strip().upper()
+    try:
+        monto_recarga = float(request.form.get("nuevo_saldo", 0))
+        if monto_recarga <= 0:
+            flash(" El monto de recarga debe ser mayor a 0.", "danger")
+            return redirect(url_for("index"))
+            
+        # Obtener el saldo actual
+        automoviles = db.obtener_automoviles()
+        auto = next((a for a in automoviles if a['placa'] == placa), None)
+        if auto is None:
+            flash(" No se encontró el vehículo con esa placa.", "danger")
+            return redirect(url_for("index"))
+        nuevo_saldo = auto['saldo'] + monto_recarga
+        db.actualizar_saldo(placa, nuevo_saldo)
+        flash(f"✅ Recarga exitosa para {placa}: +${monto_recarga}. Nuevo saldo: ${nuevo_saldo}", "success")
+    except ValueError:
+        flash(" El monto debe ser un número válido.", "danger")
+    except Exception as e:
+        flash(f" Error al recargar saldo: {e}", "danger")
     return redirect(url_for("index"))
 
 
