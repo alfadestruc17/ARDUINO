@@ -1,28 +1,25 @@
-import _mysql.connector
-from _mysql.connector import Error
-import os
-import sys
+import mysql.connector
+from mysql.connector import Error
 
-class databaseconnection:
-    def __init__(self, host="localhost", user="root", password="", database="arduino_peaje"):
+class Conexion:
+    def __init__(self, host="localhost", database="arduino_peaje", user="root", password=""):
         self.host = host
+        self.database = database
         self.user = user
         self.password = password
-        self.database = database
         self.connection = None
+        self.conectar()
 
-
-
-    def connect(self):
-        try: 
-            self.connection = _mysql.connector.connect(
+    def conectar(self):
+        try:
+            self.connection = mysql.connector.connect(
                 host=self.host,
                 database=self.database,
                 user=self.user,
                 password=self.password
             )
             if self.connection.is_connected():
-                print("Conexion exitosa a la base de datos")
+                print("✅ Conexión establecida con la base de datos")
         except Error as e:
-            print(f"Error al conectar a la base de datos: {e}")
+            print(f"❌ Error al conectar con MySQL: {e}")
             self.connection = None
