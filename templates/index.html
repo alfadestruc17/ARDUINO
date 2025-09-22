@@ -1,4 +1,3 @@
-<!-- templates/index.html -->
 <!doctype html>
 <html lang="es">
 <head>
@@ -10,6 +9,8 @@
 <body class="p-4">
   <div class="container">
     <h1>Control Talanguera</h1>
+
+    <!-- Mensajes Flash -->
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
         <div class="mt-3">
@@ -20,22 +21,28 @@
       {% endif %}
     {% endwith %}
 
+    <!-- Formulario Talanguera -->
     <form method="post" action="{{ url_for('send') }}">
       <div class="mb-3">
         <button name="action" value="open" class="btn btn-primary">Abrir Talanguera ({{ open_angle }}°)</button>
         <button name="action" value="close" class="btn btn-secondary">Cerrar Talanguera ({{ closed_angle }}°)</button>
       </div>
-
-      <div class="form-check">
+      <div class="form-check mb-4">
         <input class="form-check-input" type="checkbox" value="1" id="force" name="force">
         <label class="form-check-label" for="force">Forzar orden (ignorar sensor en Mega si tu firmware lo soporta)</label>
       </div>
     </form>
+    <hr>
 
-    <div class="mt-4">
-      <h2>Cámara Web 2</h2>
-      <img src="{{ url_for('video_feed') }}" width="640" height="480" />
-    </div>
+    <!-- Formulario Registrar Automóvil -->
+    <h2>Registrar Automóvil</h2>
+    <form method="post" action="{{ url_for('add_car') }}">
+      <div class="mb-3">
+        <label for="placa" class="form-label">Placa (3 caracteres)</label>
+        <input type="text" class="form-control" id="placa" name="placa" maxlength="3" required>
+      </div>
+      <button type="submit" class="btn btn-success">Registrar</button>
+    </form>
   </div>
 </body>
 </html>

@@ -2,6 +2,8 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, Response
 from config.config import config
 from services.arduino_service import ArduinoService
+from database.conexion import Conexion
+
 import logging, os
 import cv2
 from ultralytics import YOLO
@@ -15,13 +17,20 @@ app.config.from_object(app_cfg)
 logging.basicConfig(level=app_cfg.LOG_LEVEL)
 
 arduino = ArduinoService(base_url=app_cfg.BASE_URL)
+db = Conexion()   # 👈 instancia la conexión
 
 model = YOLO("yolo11n.pt")  
 
 
 @app.route("/")
 def index():
-    return render_template("index.html", open_angle=app_cfg.OPEN_ANGLE, closed_angle=app_cfg.CLOSED_ANGLE)
+    lista_autos = db.obtener_automoviles()   # 👈 pasa la lista de autos
+    return render_template(
+        "index.html",
+        open_angle=app_cfg.OPEN_ANGLE,
+        closed_angle=app_cfg.CLOSED_ANGLE,
+        automoviles=lista_autos
+    )
 
 @app.route("/send", methods=["POST"])
 def send():
@@ -42,28 +51,20 @@ def send():
         flash("Error enviando comando al ESP", "error")
     return redirect(url_for('index'))
 
-def gen():
-    cap = cv2.VideoCapture(2)  # cámara 2
-    while True:
-        ret, frame = cap.read()
-        if not ret:
-            break
+# 🚀 Nueva ruta para registrar autos
+@app.route("/add_car", methods=["POST"])
+def add_car():
+    placa = request.form.get("placa", "").strip().upper()
+    if len(placa) != 3:
+        flash("❌ La placa debe tener exactamente 3 caracteres.", "danger")
+    else:
+        try:
+            db.registrar_automovil(placa, 50)  # saldo inicial 50
+            flash(f"✅ Automóvil {placa} registrado con saldo inicial de 50.", "success")
+        except Exception as e:
+            flash(f"❌ Error al registrar automóvil: {e}", "danger")
+    return redirect(url_for("index"))
 
-        # --- detecciones YOLO ---
-        results = model(frame, verbose=False)  # sin logs en consola
-        annotated_frame = results[0].plot()    # dibuja las cajas sobre el frame
-
-        # Codificar el frame con cajas resaltadas
-        ret, buffer = cv2.imencode('.jpg', annotated_frame)
-        frame = buffer.tobytes()
-
-        # Enviar al navegador
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-
-@app.route('/video_feed')
-def video_feed():
-    return Response(gen(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 if __name__ == "__main__":
     app.run(debug=app_cfg.DEBUG, host="0.0.0.0", port=5000)
