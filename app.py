@@ -111,7 +111,7 @@ def video_feed():
 # 🚀 Nueva ruta para registrar autos
 @app.route("/add_car", methods=["POST"])
 def add_car():
-    placa = request.form.get("placa", "").strip().upper()
+    placa = request.form.get("placa_manual", "").strip().upper()
     if len(placa) != 3:
         flash("❌ La placa debe tener exactamente 3 caracteres.", "danger")
     else:

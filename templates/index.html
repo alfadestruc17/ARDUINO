@@ -11,7 +11,7 @@
         const res = await fetch("/get_plate_text");
         if (res.ok) {
           const data = await res.json();
-          document.getElementById("plate_text").value = data.text;
+          document.getElementById("placa_manual").value = data.text;
         }
         const imgRes = await fetch("/get_plate_crop");
         if (imgRes.ok && imgRes.status !== 204) {
@@ -76,11 +76,6 @@
       <h1>Control Talanguera</h1>
       <hr>
 
-</head>
-<body class="p-4">
-  <div class="container">
-    <h1>Control Talanguera</h1>
-
     <!-- Mensajes Flash -->
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
@@ -105,23 +100,15 @@
     </form>
     <hr>
 
-    <hr>
-
     <!-- Video y resultados de placa -->
     <div class="mt-4">
       <h2>Cámara Web 2</h2>
       <img src="{{ url_for('video_feed') }}" width="640" height="480" class="border rounded shadow-sm" />
     </div>
 
-    <div class="mt-4 row">
-      <div class="col-md-6">
-        <h3>Placa detectada (recorte)</h3>
-        <img id="plate_img" class="border rounded" width="300" height="150" alt="Recorte de placa" />
-      </div>
-      <div class="col-md-6">
-        <h3>Texto de la placa</h3>
-        <input type="text" id="plate_text" name="placa" class="form-control form-control-lg" readonly>
-      </div>
+    <div class="mt-4">
+      <h3>Placa detectada (recorte)</h3>
+      <img id="plate_img" class="border rounded" width="300" height="150" alt="Recorte de placa" />
     </div>
 
     <hr>
