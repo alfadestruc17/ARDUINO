@@ -1,12 +1,14 @@
 import mysql.connector
 from mysql.connector import Error
-
+from dotenv import load_dotenv
+import os
 class Conexion:
-    def __init__(self, host="localhost", database="arduino_peaje", user="root", password="1234"):
-        self.host = host
-        self.database = database
-        self.user = user
-        self.password = password
+    def __init__(self):
+        load_dotenv()  # Carga las variables del archivo .env
+        self.host = os.getenv("DB_HOST")
+        self.database = os.getenv("DB_NAME")
+        self.user = os.getenv("DB_USER")
+        self.password = os.getenv("DB_PASSWORD")
         self.connection = None
         self.conectar()
 
