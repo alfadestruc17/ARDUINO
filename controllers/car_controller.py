@@ -44,10 +44,34 @@ def add_car():
             flash(f" {error_msg}", "danger")
             return redirect(url_for("main.index"))
         
-        # Verificar si el vehículo ya existe
+        # Verificar si el vehículo ya existe y procesar el paso
         automoviles = db.obtener_automoviles()
-        if any(auto['placa'] == placa for auto in automoviles):
-            flash(f" El vehículo con placa {placa} ya está registrado.", "danger")
+        auto_existente = next((auto for auto in automoviles if auto['placa'] == placa), None)
+        
+        if auto_existente:
+            # Vehículo existente - procesar paso
+            costo_paso = 10  # Costo por paso
+            if auto_existente['saldo'] < costo_paso:
+                flash(f" Saldo insuficiente para el vehículo {placa}. Saldo actual: ${auto_existente['saldo']}", "danger")
+                return redirect(url_for("main.index"))
+                
+            nuevo_saldo = auto_existente['saldo'] - costo_paso
+            db.actualizar_saldo(placa, nuevo_saldo)
+            flash(f" Paso registrado para {placa}. Cobrado: ${costo_paso}. Nuevo saldo: ${nuevo_saldo}", "success")
+            
+            # Abrir barrera para vehículo existente
+            ok_open = arduino.send_angle(app_cfg.OPEN_ANGLE)
+            if not ok_open:
+                flash(" Error abriendo barrera.", "error")
+                return redirect(url_for("main.index"))
+            
+            time.sleep(15)
+            ok_close = arduino.send_angle(app_cfg.CLOSED_ANGLE)
+            if ok_close:
+                flash(" Barrera operada correctamente.", "success")
+            else:
+                flash(" Error cerrando barrera.", "error")
+            
             return redirect(url_for("main.index"))
         
         # Validar saldo
