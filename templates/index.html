@@ -5,6 +5,151 @@
   <title>Control Talanquera</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    body {
+      min-height: 100vh;
+      margin: 0;
+      background: linear-gradient(135deg, #122341, #1d4d87);
+      font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+      color: #1f2937;
+    }
+    .navbar {
+      backdrop-filter: blur(6px);
+      background: rgba(8, 24, 48, 0.85) !important;
+    }
+    .dashboard-wrapper {
+      min-height: calc(100vh - 56px);
+      display: flex;
+      align-items: stretch;
+      padding: 3rem 0;
+    }
+    .dashboard-shell {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 1.5rem;
+      padding: 2.5rem;
+      box-shadow: 0 20px 60px rgba(15, 23, 42, 0.2);
+    }
+    .panel-card {
+      border: none;
+      border-radius: 1.25rem;
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+    }
+    .panel-card .card-body {
+      padding: 2rem;
+    }
+    .control-title {
+      font-weight: 700;
+      font-size: 1.9rem;
+      letter-spacing: -0.02em;
+      color: #0f172a;
+    }
+    .btn-control {
+      font-size: 1.1rem;
+      font-weight: 600;
+      padding: 1.1rem 1.25rem;
+      border-radius: 0.9rem;
+    }
+    .btn-control i {
+      font-size: 1.2rem;
+    }
+    .form-check-label {
+      color: #475569;
+    }
+    .card-section-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #0f172a;
+    }
+    .card-section-subtitle {
+      font-size: 0.9rem;
+      color: #64748b;
+      margin-bottom: 1rem;
+    }
+    .video-card {
+      background: linear-gradient(160deg, #0f172a 0%, #1d4ed8 100%);
+      color: #f8fafc;
+      border-radius: 1.5rem;
+      overflow: hidden;
+      border: none;
+      box-shadow: 0 25px 60px rgba(15, 23, 42, 0.35);
+    }
+    .video-card .card-body {
+      padding: 2.5rem;
+    }
+    .video-frame {
+      background: rgba(15, 23, 42, 0.45);
+      border-radius: 1.25rem;
+      padding: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+    }
+    .video-frame img {
+      border-radius: 1rem;
+      width: 100%;
+      height: auto;
+      max-height: 480px;
+      object-fit: cover;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+    }
+    .plate-card {
+      border: none;
+      border-radius: 1.25rem;
+      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.12);
+    }
+    .plate-card .card-body {
+      padding: 1.75rem;
+    }
+    .plate-preview {
+      border-radius: 1rem;
+      border: 2px dashed #e2e8f0;
+      min-height: 160px;
+      background: #f8fafc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .plate-preview img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+    .form-control, .form-select {
+      border-radius: 0.8rem;
+      border-color: #cbd5f5;
+      padding: 0.9rem 1rem;
+      font-size: 0.95rem;
+      color: #1f2937;
+    }
+    .form-control:focus, .form-select:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 0.25rem rgba(37, 99, 235, 0.15);
+    }
+    .swal2-popup {
+      border-radius: 1rem !important;
+    }
+    .badge-angle {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 999px;
+      padding: 0.35rem 0.75rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #e0e7ff;
+    }
+    @media (max-width: 991.98px) {
+      .dashboard-wrapper {
+        padding: 1.5rem 0;
+      }
+      .dashboard-shell {
+        padding: 1.75rem;
+      }
+      .video-card .card-body {
+        padding: 2rem;
+      }
+    }
+  </style>
   <script>
     async function updatePlateText() {
       try {
@@ -27,34 +172,13 @@
     }
     setInterval(updatePlateText, 2000);
   </script>
-  <style>
-    body {
-      min-height: 100vh;
-      background-color: #205284;
-      margin: 0;
-    }
-    .center-wrapper {
-      min-height: calc(100vh - 56px);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .contenedor {
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      padding: 20px;
-      background: #f1f1f3;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-      max-width: 700px;
-      width: 100%;
-    }
-  </style>
 </head>
 <body>
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Talanquera</a>
+      <a class="navbar-brand fw-semibold" href="#">
+        <i class="fas fa-barrier me-2"></i>Talanquera
+      </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
               data-bs-target="#navbarNav" aria-controls="navbarNav" 
               aria-expanded="false" aria-label="Toggle navigation">
@@ -62,80 +186,185 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link active" href="{{ url_for('dashboard.dashboard') }}">Inicio</a></li>
+          <li class="nav-item">
+            <a class="nav-link active" href="{{ url_for('dashboard.dashboard') }}">
+              <i class="fas fa-gauge-high me-1"></i>Dashboard
+            </a>
+          </li>
         </ul>
       </div>
     </div>
   </nav>
 
-  <!-- Contenido centrado -->
-  <div class="center-wrapper">
-    <div class="contenedor">
-      <h1>Control Talanquera</h1>
-      <hr>
+  <div class="dashboard-wrapper">
+    <div class="container">
+      <div class="dashboard-shell">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <div class="row mb-4">
+              <div class="col-12">
+                {% for category, msg in messages %}
+                  <div class="alert alert-{{ 'success' if category=='success' else 'danger' }} rounded-3 shadow-sm mb-2">
+                    {{ msg }}
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          {% endif %}
+        {% endwith %}
 
-    <!-- Mensajes Flash -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        <div class="mt-3">
-          {% for category, msg in messages %}
-            <div class="alert alert-{{ 'success' if category=='success' else 'danger' }}">{{ msg }}</div>
-          {% endfor %}
+        <div class="row g-4 align-items-start">
+          <div class="col-12 col-lg-4">
+            <div class="d-flex flex-column gap-4">
+              <div class="card panel-card">
+                <div class="card-body">
+                  <div class="d-flex flex-column gap-3">
+                    <div>
+                      <h1 class="control-title mb-1">Control Talanquera</h1>
+                      <p class="text-muted mb-0">Gestiona el acceso vehicular en tiempo real.</p>
+                    </div>
+                    <form id="controlForm" method="post" action="{{ url_for('main.send') }}" class="d-flex flex-column gap-3">
+                      <div class="d-grid gap-3">
+                        <button name="action" value="open" class="btn btn-success btn-control shadow-sm">
+                          <i class="fas fa-arrow-up-right-from-square me-2"></i>Abrir Talanquera ({{ open_angle }}°)
+                        </button>
+                        <button name="action" value="close" class="btn btn-danger btn-control shadow-sm">
+                          <i class="fas fa-xmark me-2"></i>Cerrar Talanquera ({{ closed_angle }}°)
+                        </button>
+                      </div>
+                      <div class="form-check ps-1">
+                        <input class="form-check-input" type="checkbox" value="1" id="force" name="force">
+                        <label class="form-check-label" for="force">
+                          Forzar orden (ignora sensor en Mega si el firmware lo soporta)
+                        </label>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card panel-card">
+                <div class="card-body">
+                  <h2 class="card-section-title mb-1">Registrar Automóvil</h2>
+                  <p class="card-section-subtitle">Agrega vehículos autorizados para operar en la talanquera.</p>
+                  <form id="registerForm" method="post" action="{{ url_for('car.add_car') }}" class="d-flex flex-column gap-3">
+                    <div>
+                      <label for="placa_manual" class="form-label fw-semibold text-uppercase text-secondary">Placa (3 caracteres)</label>
+                      <input type="text" class="form-control" id="placa_manual" name="placa_manual" maxlength="3" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-control d-flex align-items-center justify-content-center gap-2">
+                      <i class="fas fa-car-side"></i>
+                      Registrar
+                    </button>
+                  </form>
+                </div>
+              </div>
+
+              <div class="card panel-card">
+                <div class="card-body">
+                  <h2 class="card-section-title mb-1">Recargar Saldo</h2>
+                  <p class="card-section-subtitle">Gestiona las recargas desde un módulo dedicado con más detalle.</p>
+                  <div class="d-grid">
+                    <a href="{{ url_for('car.recargar_saldo_view') }}" class="btn btn-info text-white btn-control d-flex align-items-center justify-content-center gap-2">
+                      <i class="fas fa-coins"></i>
+                      Ir al módulo de recargas
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-lg-8">
+            <div class="d-flex flex-column gap-4">
+              <div class="card video-card">
+                <div class="card-body">
+                  <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
+                    <div>
+                      <h2 class="h3 fw-semibold mb-1 text-white">Cámara Web 2</h2>
+                      <span class="badge-angle">
+                        <i class="fas fa-satellite-dish me-1"></i>En vivo
+                      </span>
+                    </div>
+                  </div>
+                  <div class="video-frame">
+                    <img src="{{ url_for('video.video_feed') }}" alt="Cámara Web 2" class="shadow-lg" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="card plate-card">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                      <h3 class="mb-1 fw-semibold text-dark">Placa detectada (recorte)</h3>
+                      <p class="text-muted mb-0">Actualización automática cada 2 segundos.</p>
+                    </div>
+                    <span class="badge bg-primary-subtle text-primary-emphasis py-2 px-3 rounded-pill shadow-sm">
+                      <i class="fas fa-camera me-1"></i>OCR activo
+                    </span>
+                  </div>
+                  <div class="plate-preview">
+                    <img id="plate_img" alt="Recorte de placa detectada" src="" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      {% endif %}
-    {% endwith %}
-
-    <!-- Botones Talanguera -->
-    <form method="post" action="{{ url_for('main.send') }}">
-      <div class="mb-3">
-        <button name="action" value="open" class="btn btn-primary">Abrir Talanquera ({{ open_angle }}°)</button>
-        <button name="action" value="close" class="btn btn-secondary">Cerrar Talanquera ({{ closed_angle }}°)</button>
       </div>
-      <div class="form-check mb-4">
-        <input class="form-check-input" type="checkbox" value="1" id="force" name="force">
-        <label class="form-check-label" for="force">Forzar orden (ignorar sensor en Mega si tu firmware lo soporta)</label>
-      </div>
-    </form>
-    <hr>
-
-    <!-- Video y resultados de placa -->
-    <div class="mt-4">
-      <h2>Cámara Web 2</h2>
-      <img src="{{ url_for('video.video_feed') }}" width="640" height="480" class="border rounded shadow-sm" />
     </div>
-
-    <div class="mt-4">
-      <h3>Placa detectada (recorte)</h3>
-      <img id="plate_img" class="border rounded" width="300" height="150" alt="Recorte de placa" />
-    </div>
-
-    <hr>
-
-    <!-- Formulario Registrar Automóvil -->
-    <h2>Registrar Automóvil</h2>
-    <form method="post" action="{{ url_for('car.add_car') }}">
-      <div class="mb-3">
-        <label for="placa_manual" class="form-label">Placa (3 caracteres)</label>
-        <input type="text" class="form-control" id="placa_manual" name="placa_manual" maxlength="3" required>
-      </div>
-      <button type="submit" class="btn btn-success">Registrar</button>
-    </form>
-
-    <hr>
-
-    <!-- Formulario Recargar Saldo -->
-    <h2>Recargar Saldo</h2>
-    <form method="post" action="{{ url_for('car.update_saldo') }}">
-      <div class="mb-3">
-        <label for="placa" class="form-label">Placa del Vehículo</label>
-        <input type="text" class="form-control" id="placa" name="placa" maxlength="3" required>
-      </div>
-      <div class="mb-3">
-        <label for="nuevo_saldo" class="form-label">Monto a Recargar ($)</label>
-        <input type="number" class="form-control" id="nuevo_saldo" name="nuevo_saldo" step="0.01" min="0.01" required>
-      </div>
-      <button type="submit" class="btn btn-primary">Recargar Saldo</button>
-    </form>
   </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const controlForm = document.getElementById("controlForm");
+      const registerForm = document.getElementById("registerForm");
+      if (controlForm) {
+        controlForm.addEventListener("submit", function (event) {
+          const submitter = event.submitter || event.target.querySelector("button[type='submit']");
+          if (!submitter) {
+            return;
+          }
+          const action = submitter.value;
+          const isOpen = action === "open";
+          const angle = isOpen ? "{{ open_angle }}" : "{{ closed_angle }}";
+          Swal.fire({
+            icon: isOpen ? "success" : "warning",
+            title: isOpen ? "Abrir Talanquera" : "Cerrar Talanquera",
+            text: `Se envió la orden para ${isOpen ? "abrir" : "cerrar"} la talanquera (${angle}°).`,
+            timer: 1500,
+            showConfirmButton: false,
+            timerProgressBar: true
+          });
+        });
+      }
+
+      if (registerForm) {
+        registerForm.addEventListener("submit", function (event) {
+          event.preventDefault();
+          const placaInput = document.getElementById("placa_manual");
+          const placaValue = (placaInput.value || "").trim();
+
+          if (!placaValue) {
+            Swal.fire({
+              icon: "error",
+              title: "Placa requerida",
+              text: "Ingresa la placa del automóvil para registrarlo."
+            });
+            return;
+          }
+
+          Swal.fire({
+            icon: "success",
+            title: "Registro enviado",
+            text: `El automóvil con placa ${placaValue.toUpperCase()} se registrará.`,
+            confirmButtonText: "Aceptar"
+          }).then(() => registerForm.submit());
+        });
+      }
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

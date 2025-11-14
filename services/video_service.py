@@ -11,7 +11,7 @@ class VideoService:
         self.last_plate_text = ""
 
     def gen(self):
-        cap = cv2.VideoCapture(2)  # cámara (ajusta índice)
+        cap = cv2.VideoCapture(0)  # cámara (ajusta índice)
         while True:
             ret, frame = cap.read()
             if not ret:

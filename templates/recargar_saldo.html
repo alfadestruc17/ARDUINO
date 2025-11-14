@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Recargar Saldo - Control Talanquera</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    body {
+      background: linear-gradient(135deg, #101935, #1b365d);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+      font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #0f172a;
+    }
+    .navbar {
+      background: rgba(10, 25, 47, 0.85) !important;
+      backdrop-filter: blur(10px);
+    }
+    .page-content {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      padding: 3rem 1.5rem;
+    }
+    .card-shell {
+      max-width: 620px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .card {
+      border: none;
+      border-radius: 1.5rem;
+      box-shadow: 0 25px 80px rgba(15, 23, 42, 0.25);
+      overflow: hidden;
+    }
+    .card-header {
+      background: linear-gradient(135deg, #1d4ed8, #0f172a);
+      color: #f8fafc;
+      padding: 2rem 2.25rem;
+    }
+    .card-header h1 {
+      font-size: 1.9rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+    .card-header p {
+      font-size: 1rem;
+      opacity: 0.85;
+      margin: 0;
+    }
+    .card-body {
+      padding: 2.5rem 2.25rem 2rem;
+      background: #fff;
+    }
+    .form-label {
+      font-weight: 600;
+      color: #1e293b;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      font-size: 0.85rem;
+    }
+    .form-control {
+      border-radius: 1rem;
+      border: 1px solid #cbd5f5;
+      padding: 0.95rem 1.1rem;
+      font-size: 1rem;
+      color: #111827;
+      background: #f8fafc;
+      transition: all 0.2s ease;
+    }
+    .form-control:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 0.25rem rgba(37, 99, 235, 0.15);
+    }
+    .btn-submit {
+      border-radius: 1rem;
+      padding: 1rem 1.2rem;
+      font-weight: 600;
+      font-size: 1rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.65rem;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      border: none;
+    }
+    .btn-submit:hover {
+      background: linear-gradient(135deg, #1e4fd4, #1b3fb3);
+    }
+    .card-footer {
+      background: #f8fafc;
+      padding: 1.5rem 2.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .card-footer a {
+      text-decoration: none;
+      color: #2563eb;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .swal2-popup {
+      border-radius: 1rem !important;
+    }
+    @media (max-width: 575.98px) {
+      .card-header, .card-body, .card-footer {
+        padding: 1.75rem 1.5rem;
+      }
+      .card-header h1 {
+        font-size: 1.6rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
+    <div class="container">
+      <a class="navbar-brand fw-semibold" href="{{ url_for('main.index') }}">
+        <i class="fas fa-arrow-left-long me-2"></i>Volver a Control Talanquera
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('dashboard.dashboard') }}">
+              <i class="fas fa-gauge-high me-1"></i>Dashboard
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-content">
+    <div class="card-shell">
+      <div class="card">
+        <div class="card-header">
+          <h1>Recargar Saldo</h1>
+          <p>Gestiona los fondos disponibles para vehículos registrados.</p>
+        </div>
+        <div class="card-body">
+          <form id="rechargeForm" method="post" action="{{ url_for('car.update_saldo') }}" class="d-flex flex-column gap-4">
+            <div>
+              <label for="placa" class="form-label">Placa del vehículo</label>
+              <input type="text" class="form-control" id="placa" name="placa" maxlength="3" placeholder="Ej. ABC" required>
+            </div>
+            <div>
+              <label for="nuevo_saldo" class="form-label">Monto a recargar ($)</label>
+              <input type="number" class="form-control" id="nuevo_saldo" name="nuevo_saldo" step="0.01" min="0.01" placeholder="Ej. 25.00" required>
+            </div>
+            <button type="submit" class="btn btn-submit text-white shadow">
+              <i class="fas fa-bolt"></i>
+              Procesar recarga
+            </button>
+          </form>
+        </div>
+        <div class="card-footer">
+          <a href="{{ url_for('main.index') }}">
+            <i class="fas fa-arrow-left"></i>
+            Regresar al panel principal
+          </a>
+          <span class="text-muted">
+            <i class="fas fa-lock me-1"></i>Operación segura
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const rechargeForm = document.getElementById("rechargeForm");
+      if (!rechargeForm) {
+        return;
+      }
+
+      rechargeForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+        const placa = (document.getElementById("placa").value || "").trim();
+        const monto = (document.getElementById("nuevo_saldo").value || "").trim();
+
+        if (!placa || !monto) {
+          Swal.fire({
+            icon: "error",
+            title: "Campos incompletos",
+            text: "Ingresa la placa y el monto a recargar antes de continuar."
+          });
+          return;
+        }
+
+        const montoNumber = parseFloat(monto);
+        if (Number.isNaN(montoNumber) || montoNumber <= 0) {
+          Swal.fire({
+            icon: "error",
+            title: "Monto inválido",
+            text: "El monto debe ser un número mayor que 0."
+          });
+          return;
+        }
+
+        Swal.fire({
+          icon: "success",
+          title: "Recarga confirmada",
+          text: `Se recargará $${montoNumber.toFixed(2)} al vehículo ${placa.toUpperCase()}.`,
+          confirmButtonText: "Aceptar"
+        }).then(() => rechargeForm.submit());
+      });
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

@@ -1,4 +1,4 @@
-from flask import Blueprint, request, redirect, url_for, flash
+from flask import Blueprint, request, redirect, url_for, flash, render_template
 import time
 from app_context import db, arduino, app_cfg
 from dataclasses import dataclass
@@ -134,3 +134,8 @@ def update_saldo():
     except Exception as e:
         flash(f" Error al recargar saldo: {e}", "danger")
     return redirect(url_for("main.index"))
+
+
+@car_bp.route("/recargar_saldo", methods=["GET"])
+def recargar_saldo_view():
+    return render_template("recargar_saldo.html")
